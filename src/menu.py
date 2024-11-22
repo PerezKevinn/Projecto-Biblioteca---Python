@@ -1,6 +1,6 @@
 import tkinter as tk
 import customtkinter as ctk
-from PIL import Image, ImageTk
+from PIL import Image
 from tkinter import ttk
 
 class App():
@@ -16,7 +16,7 @@ class App():
         self.Style_Buttons = ttk.Style()
         print(self.Style_Buttons.theme_names())
         
-        # Variables
+        # Variables Main
         SpFoto = Image.open('img/pic/profile.png')
         SpInventario = Image.open('img/icon/inventory.png')
         SpPrestamos = Image.open('img/icon/loans.png')
@@ -24,17 +24,29 @@ class App():
         SpSanciones = Image.open('img/icon/sanctions.png')
         SpSalir = Image.open('img/icon/exit.png')
         
-        # Imagenes
-        self.SpFoto = ctk.CTkImage(light_image=SpFoto, dark_image=SpFoto, size=(128,128))
-        self.SpInventario = ctk.CTkImage(light_image=SpInventario, dark_image=SpInventario, size=(32,32))
-        self.SpPrestamos = ctk.CTkImage(light_image=SpPrestamos, dark_image=SpPrestamos, size=(32,32))
-        self.SpDevoluciones = ctk.CTkImage(light_image=SpDevoluciones, dark_image=SpDevoluciones, size=(32,32))
-        self.SpSanciones = ctk.CTkImage(light_image=SpSanciones, dark_image=SpSanciones, size=(32,32))
-        self.SpSalir = ctk.CTkImage(light_image=SpSalir, dark_image=SpSalir, size=(32,32))
+        # Variables Inventario
+        SpLibros = Image.open('img/icon/libros.png')
+        SpEquipos = Image.open('img/icon/laptop.png')
+        SpPrimero = Image.open('img/icon/first.png')
+        SpAnterior = Image.open('img/icon/previous.png')
+        SpSiguiente = Image.open('img/icon/next.png')
+        SpUltimo = Image.open('img/icon/last.png')
         
-        # Imagenes Inventario
-        self.SpLibros = tk.PhotoImage(file='img/icon/libros.png')
-        self.SpEquipos = tk.PhotoImage(file='img/icon/laptop.png')
+        # Imagenes
+        self.Foto = ctk.CTkImage(light_image=SpFoto, dark_image=SpFoto, size=(128,128))
+        self.Inventario = ctk.CTkImage(light_image=SpInventario, dark_image=SpInventario, size=(32,32))
+        self.Prestamos = ctk.CTkImage(light_image=SpPrestamos, dark_image=SpPrestamos, size=(32,32))
+        self.Devoluciones = ctk.CTkImage(light_image=SpDevoluciones, dark_image=SpDevoluciones, size=(32,32))
+        self.Sanciones = ctk.CTkImage(light_image=SpSanciones, dark_image=SpSanciones, size=(32,32))
+        self.Salir = ctk.CTkImage(light_image=SpSalir, dark_image=SpSalir, size=(32,32))
+        
+        # Imagenes Botones Inventario
+        self.Libros = ctk.CTkImage(light_image=SpLibros, dark_image=SpLibros, size=(32,32))
+        self.Equipos = ctk.CTkImage(light_image=SpEquipos, dark_image=SpEquipos, size=(32,32))
+        self.Primero = ctk.CTkImage(light_image=SpPrimero, dark_image=SpPrimero, size=(32,32))
+        self.Anterior = ctk.CTkImage(light_image=SpAnterior, dark_image=SpAnterior, size=(32,32))
+        self.Siguiente = ctk.CTkImage(light_image=SpSiguiente, dark_image=SpSiguiente, size=(32,32))
+        self.Ultimo = ctk.CTkImage(light_image=SpUltimo)
         
         # Llamar Funciones
         self.centerWindow()
@@ -92,38 +104,45 @@ class App():
         self.Grid.heading('Estado', text='Estado', anchor='center')
         # Insertar Datos
         self.Grid.insert(parent='', index='end', iid=0, text='', values=('00001', 'Cien años de soledad', 'Literatura', 'Gabriel Garcia Marquez', 'Disponible'))
-        # Posicionamiento de la grilla
+        
+        # CRUD
+        self.BtnPrimero = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Primero, text='', bg_color='#005066')
+        self.BtnPrimero.place(relx=0.88, rely=0.10)
+        
+        self.BtnAnterior = ctk.CTkButton(self.FrGrilla, width=100, height=50, image=self.Anterior)
+        self.BtnSiguiente = ctk.CTkButton(self.FrGrilla, width=100, height=50, image=self.Siguiente)
+        self.BtnUltimo = ctk.CTkButton(self.FrGrilla, width=100, height=50, image=self.Ultimo)
         
         # Btn Libros
-        self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.SpLibros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
+        self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Libros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
         self.BtnLibros.place(relx=0.25, rely=0.18)
         
         # Btn Equipos
-        self.BtnEquipos = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.SpEquipos, text='Equipos', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
+        self.BtnEquipos = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Equipos, text='Equipos', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
         self.BtnEquipos.place(relx=0.50, rely=0.18)
         
     def Controles_Panel_Lateral(self):
         # Label Foto
-        self.LblProfile = ctk.CTkLabel(self.FrNav, bg_color='#005066', text='', image=self.SpFoto)
+        self.LblProfile = ctk.CTkLabel(self.FrNav, bg_color='#005066', text='', image=self.Foto)
         self.LblProfile.pack(side=ctk.TOP, pady=(20,10))
         
         # Btn Inventario
-        self.BtnInventario = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Inventario', image=self.SpInventario, width=250,  height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029', command=self.Inventory_Panel)
+        self.BtnInventario = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Inventario', image=self.Inventario, width=250,  height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029', command=self.Inventory_Panel)
         self.BtnInventario.pack(side=ctk.TOP, pady=(90, 0))
         
         # Btn Prestamos
-        self.BtnPrestamos = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Prestamos', image=self.SpPrestamos, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
+        self.BtnPrestamos = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Prestamos', image=self.Prestamos, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
         self.BtnPrestamos.pack(side=ctk.TOP)
         
         # Btn Devoluciones
-        self.BtnDevoluciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Devoluciones', image=self.SpDevoluciones, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
+        self.BtnDevoluciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Devoluciones', image=self.Devoluciones, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
         self.BtnDevoluciones.pack(side=ctk.TOP)
         
         # Btn Sanciones
-        self.BtnSanciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Sanciones', image=self.SpSanciones, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
+        self.BtnSanciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Sanciones', image=self.Sanciones, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
         self.BtnSanciones.pack(side=ctk.TOP)
         
         # Btn Salir
-        self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.SpSalir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
+        self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.Salir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
         self.BtnSalir.pack(side=ctk.BOTTOM, pady=(180, 0))
 App()
