@@ -1,5 +1,6 @@
 import tkinter as tk
 import customtkinter as ctk
+from PIL import Image, ImageTk
 from tkinter import ttk
 
 class App():
@@ -11,13 +12,25 @@ class App():
         self.FrmMenu.config(background='#002029')
         self.FrmMenu.resizable(False,False)
         
+        # Estilos
+        self.Style_Buttons = ttk.Style()
+        print(self.Style_Buttons.theme_names())
+        
+        # Variables
+        SpFoto = Image.open('img/pic/profile.png')
+        SpInventario = Image.open('img/icon/inventory.png')
+        SpPrestamos = Image.open('img/icon/loans.png')
+        SpDevoluciones = Image.open('img/icon/return.png')
+        SpSanciones = Image.open('img/icon/sanctions.png')
+        SpSalir = Image.open('img/icon/exit.png')
+        
         # Imagenes
-        self.SpFoto = tk.PhotoImage(file='img/pic/profile.png')
-        self.SpInventario = tk.PhotoImage(file='img/icon/inventory.png')
-        self.SpPrestamos = tk.PhotoImage(file='img/icon/loans.png')
-        self.SpDevoluciones = tk.PhotoImage(file='img/icon/return.png')
-        self.SpSanciones = tk.PhotoImage(file='img/icon/sanctions.png')
-        self.SpSalir = tk.PhotoImage(file='img/icon/exit.png')
+        self.SpFoto = ctk.CTkImage(light_image=SpFoto, dark_image=SpFoto, size=(128,128))
+        self.SpInventario = ctk.CTkImage(light_image=SpInventario, dark_image=SpInventario, size=(32,32))
+        self.SpPrestamos = ctk.CTkImage(light_image=SpPrestamos, dark_image=SpPrestamos, size=(32,32))
+        self.SpDevoluciones = ctk.CTkImage(light_image=SpDevoluciones, dark_image=SpDevoluciones, size=(32,32))
+        self.SpSanciones = ctk.CTkImage(light_image=SpSanciones, dark_image=SpSanciones, size=(32,32))
+        self.SpSalir = ctk.CTkImage(light_image=SpSalir, dark_image=SpSalir, size=(32,32))
         
         # Imagenes Inventario
         self.SpLibros = tk.PhotoImage(file='img/icon/libros.png')
@@ -57,10 +70,10 @@ class App():
         # Frame Grilla
         self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=500, corner_radius=30, fg_color='#005066')
         self.FrGrilla.place(relx=0.05, rely=0.25)
-        
+              
         # Grilla de Consulta
         self.Grid = ttk.Treeview(self.FrGrilla, columns=5, height=21)
-        self.Grid.place(relx=0.05, rely=0.05)
+        self.Grid.place(relx=0.10, rely=0.05)
         # Definicion de Columnas
         self.Grid['columns'] = ('ISBN', 'Titulo', 'Categoria', 'Autor', 'Estado')   
         # Formato de las columnas
@@ -80,7 +93,6 @@ class App():
         # Insertar Datos
         self.Grid.insert(parent='', index='end', iid=0, text='', values=('00001', 'Cien años de soledad', 'Literatura', 'Gabriel Garcia Marquez', 'Disponible'))
         # Posicionamiento de la grilla
-        self.Grid.place(relx=0.10, rely=0.05)
         
         # Btn Libros
         self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.SpLibros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
