@@ -12,10 +12,6 @@ class App():
         self.FrmMenu.config(background='#002029')
         self.FrmMenu.resizable(False,False)
         
-        # Estilos
-        self.Style_Buttons = ttk.Style()
-        print(self.Style_Buttons.theme_names())
-        
         # Variables Main
         SpFoto = Image.open('img/pic/profile.png')
         SpInventario = Image.open('img/icon/inventory.png')
@@ -109,9 +105,14 @@ class App():
         self.BtnPrimero = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Primero, text='', bg_color='#005066')
         self.BtnPrimero.place(relx=0.88, rely=0.10)
         
-        self.BtnAnterior = ctk.CTkButton(self.FrGrilla, width=100, height=50, image=self.Anterior)
-        self.BtnSiguiente = ctk.CTkButton(self.FrGrilla, width=100, height=50, image=self.Siguiente)
-        self.BtnUltimo = ctk.CTkButton(self.FrGrilla, width=100, height=50, image=self.Ultimo)
+        self.BtnAnterior = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Anterior, text='', bg_color='#005066')
+        self.BtnAnterior.place(relx=0.88, rely=0.20)
+        
+        self.BtnSiguiente = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Siguiente, text='', bg_color='#005066')
+        self.BtnSiguiente.place(relx=0.88, rely=0.30)
+        
+        self.BtnUltimo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Ultimo, text='', bg_color='#005066')
+        self.BtnUltimo.place(relx=0.88, rely=0.40)
         
         # Btn Libros
         self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Libros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
