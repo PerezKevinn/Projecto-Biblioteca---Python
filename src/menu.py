@@ -55,8 +55,32 @@ class App():
         self.FrButtons.place(relx=0.05, rely=0.05)
         
         # Frame Grilla
-        self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=500, corner_radius=30, fg_color='#005066')
+        self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=550, corner_radius=30, fg_color='#005066')
         self.FrGrilla.place(relx=0.05, rely=0.25)
+        
+        # Grilla de Consulta
+        self.Grid = ttk.Treeview(self.FrGrilla, columns=5, height=21)
+        self.Grid.place(relx=0.05, rely=0.05)
+        # Definicion de Columnas
+        self.Grid['columns'] = ('ISBN', 'Titulo', 'Categoria', 'Autor', 'Estado')   
+        # Formato de las columnas
+        self.Grid.column('#0', width=1, minwidth=1, anchor='center')
+        self.Grid.column('ISBN', width=50, minwidth=25, anchor='center')
+        self.Grid.column('Titulo', width=200, minwidth=25, anchor='center')
+        self.Grid.column('Categoria', width=80, minwidth=25, anchor='center')
+        self.Grid.column('Autor', width=180, minwidth=25, anchor='center')
+        self.Grid.column('Estado', width=80, minwidth=25, anchor='center')
+        # Encabezados
+        self.Grid.heading('#0', text='', anchor='center')
+        self.Grid.heading('ISBN', text='Codigo', anchor='center')
+        self.Grid.heading('Titulo', text='Titulo', anchor='center')
+        self.Grid.heading('Categoria', text='Categoria', anchor='center')
+        self.Grid.heading('Autor', text='Autor', anchor='center')
+        self.Grid.heading('Estado', text='Estado', anchor='center')
+        # Insertar Datos
+        self.Grid.insert(parent='', index='end', iid=0, text='', values=('00001', 'Cien años de soledad', 'Literatura', 'Gabriel Garcia Marquez', 'Disponible'))
+        # Posicionamiento de la grilla
+        self.Grid.place(relx=0.10, rely=0.05)
         
         # Btn Libros
         self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.SpLibros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
@@ -65,10 +89,6 @@ class App():
         # Btn Equipos
         self.BtnEquipos = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.SpEquipos, text='Equipos', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
         self.BtnEquipos.place(relx=0.50, rely=0.18)
-        
-        # Grilla de Consulta
-        self.Grid = ttk.Treeview(self.FrGrilla, columns=5, height=20, displaycolumns='#all')
-        self.Grid.place(relx=0.05, rely=0.05)
         
     def Controles_Panel_Lateral(self):
         # Label Foto
