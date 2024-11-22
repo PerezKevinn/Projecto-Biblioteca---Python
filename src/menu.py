@@ -55,7 +55,7 @@ class App():
         self.FrButtons.place(relx=0.05, rely=0.05)
         
         # Frame Grilla
-        self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=550, corner_radius=30, fg_color='#005066')
+        self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=500, corner_radius=30, fg_color='#005066')
         self.FrGrilla.place(relx=0.05, rely=0.25)
         
         # Grilla de Consulta
