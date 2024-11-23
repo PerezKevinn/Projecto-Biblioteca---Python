@@ -1,5 +1,6 @@
 import tkinter as tk
 import customtkinter as ctk
+import tooltip
 from PIL import Image
 from tkinter import ttk
 
@@ -23,10 +24,10 @@ class App():
         # Variables Inventario
         SpLibros = Image.open('img/icon/libros.png')
         SpEquipos = Image.open('img/icon/laptop.png')
-        SpPrimero = Image.open('img/icon/first.png')
-        SpAnterior = Image.open('img/icon/previous.png')
-        SpSiguiente = Image.open('img/icon/next.png')
-        SpUltimo = Image.open('img/icon/last.png')
+        SpNuevo = Image.open('img/icon/add.png')
+        SpEditar = Image.open('img/icon/update.png')
+        SpEliminar = Image.open('img/icon/delete.png')
+        SpBuscar = Image.open('img/icon/search.png')
         
         # Imagenes
         self.Foto = ctk.CTkImage(light_image=SpFoto, dark_image=SpFoto, size=(128,128))
@@ -39,10 +40,10 @@ class App():
         # Imagenes Botones Inventario
         self.Libros = ctk.CTkImage(light_image=SpLibros, dark_image=SpLibros, size=(32,32))
         self.Equipos = ctk.CTkImage(light_image=SpEquipos, dark_image=SpEquipos, size=(32,32))
-        self.Primero = ctk.CTkImage(light_image=SpPrimero, dark_image=SpPrimero, size=(32,32))
-        self.Anterior = ctk.CTkImage(light_image=SpAnterior, dark_image=SpAnterior, size=(32,32))
-        self.Siguiente = ctk.CTkImage(light_image=SpSiguiente, dark_image=SpSiguiente, size=(32,32))
-        self.Ultimo = ctk.CTkImage(light_image=SpUltimo)
+        self.Nuevo = ctk.CTkImage(light_image=SpNuevo, dark_image=SpNuevo, size=(32,32))
+        self.Editar = ctk.CTkImage(light_image=SpEditar, dark_image=SpEditar, size=(32,32))
+        self.Eliminar = ctk.CTkImage(light_image=SpEliminar, dark_image=SpEliminar, size=(32,32))
+        self.Buscar = ctk.CTkImage(light_image=SpBuscar, dark_image=SpBuscar, size=(32,32))
         
         # Llamar Funciones
         self.centerWindow()
@@ -50,7 +51,7 @@ class App():
         self.Controles_Panel_Lateral()
         self.FrmMenu.mainloop()
     # Funciones
-        
+    
     def centerWindow(self):
         W, H = 1200, 700
         
@@ -102,17 +103,21 @@ class App():
         self.Grid.insert(parent='', index='end', iid=0, text='', values=('00001', 'Cien años de soledad', 'Literatura', 'Gabriel Garcia Marquez', 'Disponible'))
         
         # CRUD
-        self.BtnPrimero = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Primero, text='', bg_color='#005066')
-        self.BtnPrimero.place(relx=0.88, rely=0.10)
+        self.BtnNuevo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Nuevo, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF')
+        self.BtnNuevo.place(relx=0.88, rely=0.10)
+        tooltip.Hovertip(self.BtnNuevo, text='Agregar nuevo registro', hover_delay=100)
         
-        self.BtnAnterior = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Anterior, text='', bg_color='#005066')
-        self.BtnAnterior.place(relx=0.88, rely=0.20)
+        self.BtnEditar = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Editar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF')
+        self.BtnEditar.place(relx=0.88, rely=0.22)
+        tooltip.Hovertip(self.BtnEditar, text='Editar registro seleccionado', hover_delay=100)
         
-        self.BtnSiguiente = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Siguiente, text='', bg_color='#005066')
-        self.BtnSiguiente.place(relx=0.88, rely=0.30)
+        self.BtnEliminar = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Eliminar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF')
+        self.BtnEliminar.place(relx=0.88, rely=0.34)
+        tooltip.Hovertip(self.BtnEliminar, text='Eliminar registro seleccionado', hover_delay=100)
         
-        self.BtnUltimo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Ultimo, text='', bg_color='#005066')
-        self.BtnUltimo.place(relx=0.88, rely=0.40)
+        self.BtnBuscar = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Buscar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF')
+        self.BtnBuscar.place(relx=0.88, rely=0.46)
+        tooltip.Hovertip(self.BtnBuscar, text='Buscar registro', hover_delay=100)
         
         # Btn Libros
         self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Libros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
