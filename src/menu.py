@@ -62,11 +62,12 @@ class App():
     
     def Paneles(self):
         # Menu lateral
-        self.FrNav = ctk.CTkFrame(self.FrmMenu, width=200, height=600, fg_color='#005066', corner_radius=0)
+        self.FrNav = ctk.CTkFrame(self.FrmMenu, width=200, height=698, fg_color='#005066', corner_radius=0)
         self.FrNav.pack(side=ctk.LEFT)
     
     # Formulario de Inventario
     def Inventory_Panel(self):
+        
         # Frame de Inventario
         self.FrInventory = tk.Frame(self.FrmMenu, background='#002029', width=900, height=800)
         self.FrInventory.pack(pady=20)
@@ -126,29 +127,63 @@ class App():
         # Btn Equipos
         self.BtnEquipos = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Equipos, text='Equipos', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
         self.BtnEquipos.place(relx=0.50, rely=0.18)
+    
+    # Formulario de Prestamos
+    def Loans_Form(self):
+        pass
+    
+    def Returns_Form(self):
+        pass
+    
+    def Sanctions_Form(self):
+        pass
+    
+    # Indicadores
+    def Hide_Indicators(self):
+        self.IndInventario.configure(bg='#005066')
+        self.IndPrestamos.configure(bg='#005066')
+        self.IndDevoluciones.configure(bg='#005066')
+        self.IndSanciones.configure(bg='#005066')
+    
+    def Indicators(self, lb, page):
+        self.Hide_Indicators()
+        lb.configure(bg='#FFFFFF')
+        page()
         
     def Controles_Panel_Lateral(self):
         # Label Foto
         self.LblProfile = ctk.CTkLabel(self.FrNav, bg_color='#005066', text='', image=self.Foto)
-        self.LblProfile.pack(side=ctk.TOP, pady=(20,10))
+        self.LblProfile.place(relx=0.18, rely=0.05)
         
         # Btn Inventario
-        self.BtnInventario = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Inventario', image=self.Inventario, width=250,  height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029', command=self.Inventory_Panel)
-        self.BtnInventario.pack(side=ctk.TOP, pady=(90, 0))
+        self.IndInventario = tk.Label(self.FrNav, background='#005066', width=5, height=3, text='')
+        self.IndInventario.place(relx=0.97, rely=0.40)
+        
+        self.BtnInventario = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Inventario', image=self.Inventario, width=193,  height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=lambda: self.Indicators(self.IndInventario, self.Inventory_Panel))
+        self.BtnInventario.place(relx=0, rely=0.40)
         
         # Btn Prestamos
-        self.BtnPrestamos = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Prestamos', image=self.Prestamos, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
-        self.BtnPrestamos.pack(side=ctk.TOP)
+        self.IndPrestamos = tk.Label(self.FrNav, background='#005066', width=5, height=3, text='')
+        self.IndPrestamos.place(relx=0.97, rely=0.49)
+        
+        self.BtnPrestamos = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Prestamos', image=self.Prestamos, width=193, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=lambda:self.Indicators(self.IndPrestamos, self.Loans_Form))
+        self.BtnPrestamos.place(relx=0, rely=0.49)
         
         # Btn Devoluciones
-        self.BtnDevoluciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Devoluciones', image=self.Devoluciones, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
-        self.BtnDevoluciones.pack(side=ctk.TOP)
+        self.IndDevoluciones = tk.Label(self.FrNav, background='#005066', width=5, height=3, text='')
+        self.IndDevoluciones.place(relx=0.97, rely=0.58)
+        
+        self.BtnDevoluciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Devoluciones', image=self.Devoluciones, width=193, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=lambda:self.Indicators(self.IndDevoluciones, self.Returns_Form))
+        self.BtnDevoluciones.place(relx=0, rely=0.58)
         
         # Btn Sanciones
-        self.BtnSanciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Sanciones', image=self.Sanciones, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
-        self.BtnSanciones.pack(side=ctk.TOP)
+        self.IndSanciones = tk.Label(self.FrNav, background='#005066', width=5, height=3, text='')
+        self.IndSanciones.place(relx=0.97, rely=0.67)
+        
+        self.BtnSanciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Sanciones', image=self.Sanciones, width=193, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=lambda:self.Indicators(self.IndSanciones, self.Sanctions_Form))
+        self.BtnSanciones.place(relx=0, rely=0.67)
         
         # Btn Salir
-        self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.Salir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=True, hover_color='#002029')
-        self.BtnSalir.pack(side=ctk.BOTTOM, pady=(180, 0))
+        self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.Salir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False)
+        self.BtnSalir.place(relx=0, rely=0.92)
 App()
