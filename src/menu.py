@@ -134,10 +134,11 @@ class App():
     def Loans_Form(self):
         
         # Frame Prestamos
-        self.FrLoans = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
+        self.FrLoans = tk.Frame(self.FrPages, background='#FFFFFF', width=900, height=800)
         self.FrLoans.place(relx=0.05, rely=0)
         self.FrLoans.grid_propagate(False)
         
+                
     def Returns_Form(self):
         pass
     def Sanctions_Form(self):
