@@ -51,7 +51,6 @@ class App():
         self.Controles_Panel_Lateral()
         self.FrmMenu.mainloop()
     # Funciones
-    
     def centerWindow(self):
         W, H = 1200, 700
         
@@ -60,26 +59,31 @@ class App():
         
         self.FrmMenu.geometry(f'{W}x{H}+{Ws}+{Hs}')
     
+    # Paneles
     def Paneles(self):
         # Menu lateral
         self.FrNav = ctk.CTkFrame(self.FrmMenu, width=200, height=698, fg_color='#005066', corner_radius=0)
         self.FrNav.pack(side=ctk.LEFT)
-    
-    # Formulario de Inventario
+        
+        # Frame Pages
+        self.FrPages = ctk.CTkFrame(self.FrmMenu, width=1000, height=698, fg_color='#002029', corner_radius=0)
+        self.FrPages.pack(side=ctk.LEFT)
+
+    # Formularios
     def Inventory_Panel(self):
         
         # Frame de Inventario
-        self.FrInventory = tk.Frame(self.FrmMenu, background='#002029', width=900, height=800)
-        self.FrInventory.pack(pady=20)
+        self.FrInventory = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
+        self.FrInventory.place(relx=0.05, rely=0)
         self.FrInventory.grid_propagate(False)
         
         # Frame Botones
         self.FrButtons = ctk.CTkFrame(self.FrInventory, width=800, height=120, corner_radius=30, fg_color='#005066')
-        self.FrButtons.place(relx=0.05, rely=0.05)
+        self.FrButtons.place(relx=0.05, rely=0.03)
         
         # Frame Grilla
         self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=500, corner_radius=30, fg_color='#005066')
-        self.FrGrilla.place(relx=0.05, rely=0.25)
+        self.FrGrilla.place(relx=0.05, rely=0.20)
               
         # Grilla de Consulta
         self.Grid = ttk.Treeview(self.FrGrilla, columns=5, height=21)
@@ -127,14 +131,15 @@ class App():
         # Btn Equipos
         self.BtnEquipos = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Equipos, text='Equipos', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
         self.BtnEquipos.place(relx=0.50, rely=0.18)
-    
-    # Formulario de Prestamos
     def Loans_Form(self):
-        pass
-    
+        
+        # Frame Prestamos
+        self.FrLoans = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
+        self.FrLoans.place(relx=0.05, rely=0)
+        self.FrLoans.grid_propagate(False)
+        
     def Returns_Form(self):
         pass
-    
     def Sanctions_Form(self):
         pass
     
@@ -144,12 +149,18 @@ class App():
         self.IndPrestamos.configure(bg='#005066')
         self.IndDevoluciones.configure(bg='#005066')
         self.IndSanciones.configure(bg='#005066')
-    
     def Indicators(self, lb, page):
         self.Hide_Indicators()
         lb.configure(bg='#FFFFFF')
+        self.delete_frames()
         page()
-        
+    
+    # Controlar Frames
+    def delete_frames(self):
+        for frame in self.FrPages.winfo_children():
+            frame.destroy()
+            
+    # Controles
     def Controles_Panel_Lateral(self):
         # Label Foto
         self.LblProfile = ctk.CTkLabel(self.FrNav, bg_color='#005066', text='', image=self.Foto)
