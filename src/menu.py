@@ -22,12 +22,16 @@ class App():
         SpSalir = Image.open('img/icon/exit.png')
         
         # Variables Inventario
-        SpLibros = Image.open('img/icon/libros.png')
-        SpEquipos = Image.open('img/icon/laptop.png')
         SpNuevo = Image.open('img/icon/add.png')
         SpEditar = Image.open('img/icon/update.png')
         SpEliminar = Image.open('img/icon/delete.png')
         SpBuscar = Image.open('img/icon/search.png')
+        
+        # Variables Prestamos
+        self.StrConsulta = ctk.StringVar()
+        SpInicio = Image.open('img/icon/inicio.png')
+        SpConsultar = Image.open('img/icon/buscar.png')
+        SpRegistrar = Image.open('img/icon/registrar.png')
         
         # Imagenes
         self.Foto = ctk.CTkImage(light_image=SpFoto, dark_image=SpFoto, size=(128,128))
@@ -38,12 +42,15 @@ class App():
         self.Salir = ctk.CTkImage(light_image=SpSalir, dark_image=SpSalir, size=(32,32))
         
         # Imagenes Botones Inventario
-        self.Libros = ctk.CTkImage(light_image=SpLibros, dark_image=SpLibros, size=(32,32))
-        self.Equipos = ctk.CTkImage(light_image=SpEquipos, dark_image=SpEquipos, size=(32,32))
         self.Nuevo = ctk.CTkImage(light_image=SpNuevo, dark_image=SpNuevo, size=(32,32))
         self.Editar = ctk.CTkImage(light_image=SpEditar, dark_image=SpEditar, size=(32,32))
         self.Eliminar = ctk.CTkImage(light_image=SpEliminar, dark_image=SpEliminar, size=(32,32))
         self.Buscar = ctk.CTkImage(light_image=SpBuscar, dark_image=SpBuscar, size=(32,32))
+        
+        # Imagenes Prestamos
+        self.Inicio = ctk.CTkImage(light_image=SpInicio, dark_image=SpInicio, size=(32,32))
+        self.Consultar = ctk.CTkImage(light_image=SpConsultar, dark_image=SpConsultar, size=(32,32))
+        self.Registrar = ctk.CTkImage(light_image=SpRegistrar, dark_image=SpRegistrar, size=(32,32))
         
         # Llamar Funciones
         self.centerWindow()
@@ -81,32 +88,14 @@ class App():
         self.FrButtons = ctk.CTkFrame(self.FrInventory, width=800, height=120, corner_radius=30, fg_color='#005066')
         self.FrButtons.place(relx=0.05, rely=0.03)
         
+        # Consulta
+        self.TxtConsulta = ctk.CTkEntry(self.FrButtons, width=400, fg_color='#FFFFFF', font=('Roboto', 18), text_color='#000000', placeholder_text='ISBN / ID / NOMBRE', placeholder_text_color='#a1a0a0')
+        self.TxtConsulta.place(relx=0.26, rely=0.40)
+        
         # Frame Grilla
         self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=500, corner_radius=30, fg_color='#005066')
         self.FrGrilla.place(relx=0.05, rely=0.20)
               
-        # Grilla de Consulta
-        self.Grid = ttk.Treeview(self.FrGrilla, columns=5, height=21)
-        self.Grid.place(relx=0.10, rely=0.05)
-        # Definicion de Columnas
-        self.Grid['columns'] = ('ISBN', 'Titulo', 'Categoria', 'Autor', 'Estado')   
-        # Formato de las columnas
-        self.Grid.column('#0', width=1, minwidth=1, anchor='center')
-        self.Grid.column('ISBN', width=50, minwidth=25, anchor='center')
-        self.Grid.column('Titulo', width=200, minwidth=25, anchor='center')
-        self.Grid.column('Categoria', width=80, minwidth=25, anchor='center')
-        self.Grid.column('Autor', width=180, minwidth=25, anchor='center')
-        self.Grid.column('Estado', width=80, minwidth=25, anchor='center')
-        # Encabezados
-        self.Grid.heading('#0', text='', anchor='center')
-        self.Grid.heading('ISBN', text='Codigo', anchor='center')
-        self.Grid.heading('Titulo', text='Titulo', anchor='center')
-        self.Grid.heading('Categoria', text='Categoria', anchor='center')
-        self.Grid.heading('Autor', text='Autor', anchor='center')
-        self.Grid.heading('Estado', text='Estado', anchor='center')
-        # Insertar Datos
-        self.Grid.insert(parent='', index='end', iid=0, text='', values=('00001', 'Cien años de soledad', 'Literatura', 'Gabriel Garcia Marquez', 'Disponible'))
-        
         # CRUD
         self.BtnNuevo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Nuevo, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF')
         self.BtnNuevo.place(relx=0.88, rely=0.10)
@@ -123,26 +112,85 @@ class App():
         self.BtnBuscar = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Buscar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF')
         self.BtnBuscar.place(relx=0.88, rely=0.46)
         tooltip.Hovertip(self.BtnBuscar, text='Buscar registro', hover_delay=100)
-        
-        # Btn Libros
-        self.BtnLibros = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Libros, text='Libros', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
-        self.BtnLibros.place(relx=0.25, rely=0.18)
-        
-        # Btn Equipos
-        self.BtnEquipos = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Equipos, text='Equipos', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029')
-        self.BtnEquipos.place(relx=0.50, rely=0.18)
-    def Loans_Form(self):
+    def Loans_Form(self): 
         
         # Frame Prestamos
-        self.FrLoans = tk.Frame(self.FrPages, background='#FFFFFF', width=900, height=800)
+        self.FrLoans = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
         self.FrLoans.place(relx=0.05, rely=0)
         self.FrLoans.grid_propagate(False)
         
-                
+        # Frame Botones
+        self.FrButtons = ctk.CTkFrame(self.FrLoans, width=800, height=120, corner_radius=30, fg_color='#005066')
+        self.FrButtons.place(relx=0.05, rely=0.03)
+        
+        # Frame Datos
+        self.FrDatos = ctk.CTkFrame(self.FrLoans, width=800, height=500, corner_radius=30, fg_color='#005066')
+        self.FrDatos.place(relx=0.05, rely=0.20)
+        
+        # Btn Consultar
+        self.BtnConsultar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Consultar, text='Consultar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Search)
+        self.BtnConsultar.place(relx=0.25, rely=0.18)
+        
+        # Btn Registrar
+        self.BtnRegistrar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Registrar, text='Registrar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Add)
+        self.BtnRegistrar.place(relx=0.50, rely=0.18)
     def Returns_Form(self):
         pass
     def Sanctions_Form(self):
         pass
+     
+    # Frames
+    def Create_Search(self):
+        self.delete_frdatos()
+        # Cambiar Boton
+        self.BtnConsultar.configure(image=self.Inicio, text='Inicio', command=self.home)
+        if (self.BtnRegistrar.cget('image') == self.Inicio):
+            self.BtnRegistrar.configure(image=self.Registrar, text='Registrar', command=self.Create_Add)
+        
+        # Label Codigo
+        self.LblCodigo = ctk.CTkLabel(self.FrDatos, width=120, font=('Roboto', 18), text='Ingrese el codigo:')
+        self.LblCodigo.place(relx=0.10, rely=0.10)
+        
+        # Entry Codigo
+        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18), textvariable=self.StrConsulta)
+        self.TxtCodigo.place(relx=0.30, rely=0.10)
+        
+        # Separador
+        self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
+        self.Separador.place(relx=0.08, rely=0.27)
+    def Create_Add(self):
+        self.delete_frdatos()
+        # Cambiar Botones
+        self.BtnRegistrar.configure(image=self.Inicio, text='Inicio', command=self.home)
+        if (self.BtnConsultar.cget('image') == self.Inicio):
+            self.BtnConsultar.configure(image=self.Consultar, text='Consultar', command=self.Create_Search)
+        
+        # Label Codigo
+        self.LblCodigo = ctk.CTkLabel(self.FrDatos, text='Codigo', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=180)
+        self.LblCodigo.place(relx=0.10, rely=0.10)
+        # Entry Codigo
+        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=180, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtCodigo.place(relx=0.30, rely=0.10)
+        # Label Nombre
+        self.LblNombre = ctk.CTkLabel(self.FrDatos, text='Nombre', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=180)
+        self.LblNombre.place(relx=0.10, rely=0.20)
+        # Entry Nombre
+        self.TxtNombre = ctk.CTkEntry(self.FrDatos, width=180, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtNombre.place(relx=0.30, rely=0.20)
+        # Label Telefono
+        self.LblTel = ctk.CTkLabel(self.FrDatos, width=180, fg_color='#005066', text='Telefono', text_color='#FFFFFF', font=('Roboto', 18))
+        self.LblTel.place(relx=0.10, rely=0.30)
+        # Entry Telefono
+        self.TxtTel = ctk.CTkEntry(self.FrDatos, width=180, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtTel.place(relx=0.30, rely=0.30)
+
+        # Separador
+        self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
+        self.Separador.place(relx=0.08, rely=0.48)
+    
+    # Commands
+    def home(self):
+        self.Loans_Form()
     
     # Indicadores
     def Hide_Indicators(self):
@@ -156,11 +204,14 @@ class App():
         self.delete_frames()
         page()
     
-    # Controlar Frames
+    # Controlarores
     def delete_frames(self):
         for frame in self.FrPages.winfo_children():
+            frame.destroy()  
+    def delete_frdatos(self):
+        for frame in self.FrDatos.winfo_children():
             frame.destroy()
-            
+    
     # Controles
     def Controles_Panel_Lateral(self):
         # Label Foto
