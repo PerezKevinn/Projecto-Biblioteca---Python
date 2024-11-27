@@ -2,7 +2,6 @@ import tkinter as tk
 import customtkinter as ctk
 import tooltip
 from PIL import Image
-from tkinter import ttk
 
 class App():
     def __init__(self):
@@ -28,7 +27,8 @@ class App():
         SpBuscar = Image.open('img/icon/search.png')
         
         # Variables Prestamos
-        self.StrConsulta = ctk.StringVar()
+        SpGuardar = Image.open('img/icon/save.png')
+        SpCancelar = Image.open('img/icon/cancel.png')
         SpInicio = Image.open('img/icon/inicio.png')
         SpConsultar = Image.open('img/icon/buscar.png')
         SpRegistrar = Image.open('img/icon/registrar.png')
@@ -48,6 +48,8 @@ class App():
         self.Buscar = ctk.CTkImage(light_image=SpBuscar, dark_image=SpBuscar, size=(32,32))
         
         # Imagenes Prestamos
+        self.Guardar = ctk.CTkImage(light_image=SpGuardar, dark_image=SpGuardar, size=(32,32))
+        self.Cancelar = ctk.CTkImage(light_image=SpCancelar, dark_image=SpCancelar, size=(32,32))
         self.Inicio = ctk.CTkImage(light_image=SpInicio, dark_image=SpInicio, size=(32,32))
         self.Consultar = ctk.CTkImage(light_image=SpConsultar, dark_image=SpConsultar, size=(32,32))
         self.Registrar = ctk.CTkImage(light_image=SpRegistrar, dark_image=SpRegistrar, size=(32,32))
@@ -65,7 +67,7 @@ class App():
         Hs = (self.FrmMenu.winfo_screenheight()//2) - (H//2)
         
         self.FrmMenu.geometry(f'{W}x{H}+{Ws}+{Hs}')
-    
+
     # Paneles
     def Paneles(self):
         # Menu lateral
@@ -138,7 +140,7 @@ class App():
         pass
     def Sanctions_Form(self):
         pass
-     
+
     # Frames
     def Create_Search(self):
         self.delete_frdatos()
@@ -152,7 +154,7 @@ class App():
         self.LblCodigo.place(relx=0.10, rely=0.10)
         
         # Entry Codigo
-        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18), textvariable=self.StrConsulta)
+        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
         self.TxtCodigo.place(relx=0.30, rely=0.10)
         
         # Separador
@@ -166,32 +168,57 @@ class App():
             self.BtnConsultar.configure(image=self.Consultar, text='Consultar', command=self.Create_Search)
         
         # Label Codigo
-        self.LblCodigo = ctk.CTkLabel(self.FrDatos, text='Codigo', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=180)
-        self.LblCodigo.place(relx=0.10, rely=0.10)
+        self.LblCodigo = ctk.CTkLabel(self.FrDatos, text='Codigo', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=280, anchor='w')
+        self.LblCodigo.place(relx=0.20, rely=0.10)
+        
         # Entry Codigo
-        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=180, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
-        self.TxtCodigo.place(relx=0.30, rely=0.10)
+        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtCodigo.place(relx=0.40, rely=0.10)
+        
         # Label Nombre
-        self.LblNombre = ctk.CTkLabel(self.FrDatos, text='Nombre', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=180)
-        self.LblNombre.place(relx=0.10, rely=0.20)
+        self.LblNombre = ctk.CTkLabel(self.FrDatos, text='Nombre', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=280, anchor='w')
+        self.LblNombre.place(relx=0.20, rely=0.20)
+        
         # Entry Nombre
-        self.TxtNombre = ctk.CTkEntry(self.FrDatos, width=180, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
-        self.TxtNombre.place(relx=0.30, rely=0.20)
+        self.TxtNombre = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtNombre.place(relx=0.40, rely=0.20)
+        
         # Label Telefono
-        self.LblTel = ctk.CTkLabel(self.FrDatos, width=180, fg_color='#005066', text='Telefono', text_color='#FFFFFF', font=('Roboto', 18))
-        self.LblTel.place(relx=0.10, rely=0.30)
+        self.LblTel = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', text='Telefono', text_color='#FFFFFF', font=('Roboto', 18), anchor='w')
+        self.LblTel.place(relx=0.20, rely=0.30)
+        
         # Entry Telefono
-        self.TxtTel = ctk.CTkEntry(self.FrDatos, width=180, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
-        self.TxtTel.place(relx=0.30, rely=0.30)
+        self.TxtTel = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtTel.place(relx=0.40, rely=0.30)
 
+        # Label Ficha
+        self.LblFicha = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', text='Ficha', anchor='w')
+        self.LblFicha.place(relx=0.20, rely=0.40)
+        
+        # Entry Ficha
+        self.TxtFicha = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', font=('Roboto', 18), text_color='#000000')
+        self.TxtFicha.place(relx=0.40, rely=0.40)
+        
         # Separador
         self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
-        self.Separador.place(relx=0.08, rely=0.48)
-    
+        self.Separador.place(relx=0.08, rely=0.52)
+        
+        # Combobox Items
+        self.CbItems = ctk.CTkComboBox(self.FrDatos, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18),  width=320, button_color='#f09641')
+        self.CbItems.place(relx=0.29, rely=0.62)
+        
+        # Btn Guardar
+        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029')
+        self.BtnGuardar.place(relx=0.25, rely=0.72)
+        
+        # Btn Cancelar
+        self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029')
+        self.BtnCancelar.place(relx=0.50, rely=0.72)
+
     # Commands
     def home(self):
         self.Loans_Form()
-    
+
     # Indicadores
     def Hide_Indicators(self):
         self.IndInventario.configure(bg='#005066')
@@ -203,7 +230,7 @@ class App():
         lb.configure(bg='#FFFFFF')
         self.delete_frames()
         page()
-    
+
     # Controlarores
     def delete_frames(self):
         for frame in self.FrPages.winfo_children():
@@ -211,7 +238,7 @@ class App():
     def delete_frdatos(self):
         for frame in self.FrDatos.winfo_children():
             frame.destroy()
-    
+
     # Controles
     def Controles_Panel_Lateral(self):
         # Label Foto
