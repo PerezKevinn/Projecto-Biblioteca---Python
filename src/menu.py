@@ -1,10 +1,14 @@
 import tkinter as tk
 import customtkinter as ctk
 import tooltip
+import login
+from tkinter import messagebox as mb
 from PIL import Image
 
 class App():
     def __init__(self):
+        
+        
         
         # Ventana Principal
         self.FrmMenu = tk.Tk()
@@ -18,6 +22,7 @@ class App():
         SpPrestamos = Image.open('img/icon/loans.png')
         SpDevoluciones = Image.open('img/icon/return.png')
         SpSanciones = Image.open('img/icon/sanctions.png')
+        SpInformes = Image.open('img/icon/informes.png')
         SpSalir = Image.open('img/icon/exit.png')
         
         # Variables Inventario
@@ -39,6 +44,7 @@ class App():
         self.Prestamos = ctk.CTkImage(light_image=SpPrestamos, dark_image=SpPrestamos, size=(32,32))
         self.Devoluciones = ctk.CTkImage(light_image=SpDevoluciones, dark_image=SpDevoluciones, size=(32,32))
         self.Sanciones = ctk.CTkImage(light_image=SpSanciones, dark_image=SpSanciones, size=(32,32))
+        self.Informes = ctk.CTkImage(light_image=SpInformes, dark_image=SpInformes, size=(32,32))
         self.Salir = ctk.CTkImage(light_image=SpSalir, dark_image=SpSalir, size=(32,32))
         
         # Imagenes Botones Inventario
@@ -59,6 +65,7 @@ class App():
         self.Paneles()
         self.Controles_Panel_Lateral()
         self.FrmMenu.mainloop()
+    
     # Funciones
     def centerWindow(self):
         W, H = 1200, 700
@@ -137,15 +144,54 @@ class App():
         self.BtnRegistrar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Registrar, text='Registrar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Add)
         self.BtnRegistrar.place(relx=0.50, rely=0.18)
     def Returns_Form(self):
-        pass
+        # Frame Devoluciones
+        self.FrReturns = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
+        self.FrReturns.place(relx=0.05, rely=0)
+        self.FrReturns.grid_propagate(False)
+        
+        # Frame Botones
+        self.FrButtons = ctk.CTkFrame(self.FrReturns, width=800, height=120, corner_radius=30, fg_color='#005066')
+        self.FrButtons.place(relx=0.05, rely=0.03)
+        
+        # Frame Datos
+        self.FrDatos = ctk.CTkFrame(self.FrReturns, width=800, height=500, corner_radius=30, fg_color='#005066')
+        self.FrDatos.place(relx=0.05, rely=0.20)
+        
+        # Btn Consultar
+        self.BtnConsultar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Consultar, text='Consultar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Search)
+        self.BtnConsultar.place(relx=0.25, rely=0.18)
+        
+        # Btn Registrar
+        self.BtnRegistrar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Registrar, text='Registrar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Add)
+        self.BtnRegistrar.place(relx=0.50, rely=0.18)
     def Sanctions_Form(self):
-        pass
-
+        # Frame Sanciones
+        self.FrSanctions = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
+        self.FrSanctions.place(relx=0.05, rely=0)
+        self.FrSanctions.grid_propagate(False)
+        
+        # Frame Botones
+        self.FrButtons = ctk.CTkFrame(self.FrSanctions, width=800, height=120, corner_radius=30, fg_color='#005066')
+        self.FrButtons.place(relx=0.05, rely=0.03)
+        
+        # Frame Datos
+        self.FrDatos = ctk.CTkFrame(self.FrSanctions, width=800, height=500, corner_radius=30, fg_color='#005066')
+        self.FrDatos.place(relx=0.05, rely=0.20)
+        
+        # Label Codigo
+        self.LblCodigo = ctk.CTkLabel(self.FrButtons, text='Ingresar codigo', text_color='#FFFFFF',  bg_color='#005066', width=120, height=4, font=('Roboto', 18, 'bold'))
+        self.LblCodigo.place(relx=0.20, rely=0.40)
+        
+        # Entry Codigo
+        self.TxtCodigo = ctk.CTkEntry(self.FrButtons, text_color='#000000', fg_color='#FFFFFF', width=290, height=4, font=('Roboto', 18))
+        self.TxtCodigo.place(relx=0.40, rely=0.40)
+    def Information_Form(self):
+        
     # Frames
     def Create_Search(self):
         self.delete_frdatos()
         # Cambiar Boton
-        self.BtnConsultar.configure(image=self.Inicio, text='Inicio', command=self.home)
+        self.BtnConsultar.configure(image=self.Inicio, text='Inicio', command=self.Home)
         if (self.BtnRegistrar.cget('image') == self.Inicio):
             self.BtnRegistrar.configure(image=self.Registrar, text='Registrar', command=self.Create_Add)
         
@@ -163,7 +209,7 @@ class App():
     def Create_Add(self):
         self.delete_frdatos()
         # Cambiar Botones
-        self.BtnRegistrar.configure(image=self.Inicio, text='Inicio', command=self.home)
+        self.BtnRegistrar.configure(image=self.Inicio, text='Inicio', command=self.Home)
         if (self.BtnConsultar.cget('image') == self.Inicio):
             self.BtnConsultar.configure(image=self.Consultar, text='Consultar', command=self.Create_Search)
         
@@ -216,9 +262,9 @@ class App():
         self.BtnCancelar.place(relx=0.50, rely=0.72)
 
     # Commands
-    def home(self):
+    def Home(self):
         self.Loans_Form()
-
+            
     # Indicadores
     def Hide_Indicators(self):
         self.IndInventario.configure(bg='#005066')
@@ -273,7 +319,15 @@ class App():
         self.BtnSanciones = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Sanciones', image=self.Sanciones, width=193, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=lambda:self.Indicators(self.IndSanciones, self.Sanctions_Form))
         self.BtnSanciones.place(relx=0, rely=0.67)
         
+        # Btn Information
+        self.IndInformation = tk.Label(self.FrNav, background='#005066', width=5, height=3, text='')
+        self.IndInformation.place(relx=0.97, rely=0.67)
+        
+        self.BtnInformation = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Informes', image=self.Informes, width=193, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=lambda:self.Indicators(self.IndInformation, self.Information_Form))
+        self.BtnInformation.place(relx=0, rely=0.76)
+        
         # Btn Salir
         self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.Salir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False)
         self.BtnSalir.place(relx=0, rely=0.92)
-App()
+def Start():
+    App()

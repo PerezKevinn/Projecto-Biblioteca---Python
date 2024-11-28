@@ -13,19 +13,21 @@ class App():
         self.FrmSplash.overrideredirect(True)
         
         # Variables
-        sprite = Image.open('img/logo/Logo_FT.png').resize([600,400])
-        sprite = ImageTk.PhotoImage(sprite)
+        SpLogo = Image.open('img/logo/Logo_FT.png')
         
-        # Creacion de Elementos
-        self.LblLogo = ttk.Label(self.FrmSplash, image=sprite, background='#002029')
+        # Imagenes
+        self.Logo = ctk.CTkImage(light_image=SpLogo, dark_image=SpLogo, size=(450,450))
+        
+        # Creacion de Elementose
+        self.LblLogo = ctk.CTkLabel(self.FrmSplash, image=self.Logo, fg_color='#002029', text='')
         self.PbLoad = ctk.CTkProgressBar(self.FrmSplash, corner_radius=13, progress_color='#FFFFFF',width=400 , mode='determinate', determinate_speed=0.5, indeterminate_speed=0.5)
         
         # Configuracion de Elementos
         self.PbLoad.set(0)
         
         # Posicionamiento de Elementos 
-        self.LblLogo.place(relx=0.12, rely=0.001)
-        self.PbLoad.place(relx=0.25, rely=0.90)
+        self.LblLogo.place(relx=0.22, rely=0)
+        self.PbLoad.place(relx=0.25, rely=0.94)
 
         # Funciones
         self.centerWindow()
