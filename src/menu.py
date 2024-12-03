@@ -211,6 +211,26 @@ class App():
         self.TxtCodigo = ctk.CTkEntry(self.FrButtons, text_color='#000000', fg_color='#FFFFFF', width=290, height=4, font=('Roboto', 18))
         self.TxtCodigo.place(relx=0.40, rely=0.40)
         
+        # Treeview
+        self.Tree = ttk.Treeview(self.FrDatos, columns=('CODIGO', 'USUARIO', 'MONTO', 'FECHA'))
+        
+        # Configurar los headings
+        self.Tree.heading("#0", text="")
+        self.Tree.heading("CODIGO", text="Codigo")
+        self.Tree.heading("USUARIO", text="Usuario")
+        self.Tree.heading("MONTO", text="Monto")
+        self.Tree.heading("FECHA", text="Fecha")
+
+        # Configurar la columna
+        self.Tree.column("#0", width=0)
+        self.Tree.column("CODIGO", width=100)
+        self.Tree.column("USUARIO", width=140)
+        self.Tree.column("MONTO", width=120)
+        self.Tree.column("FECHA", width=120)
+        
+        # Posicionar el Tree
+        self.Tree.place(relx=0.10, rely=0.10)
+    
     # Frames
     def Create_Search(self):
         self.delete_frdatos()
@@ -227,9 +247,35 @@ class App():
         self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
         self.TxtCodigo.place(relx=0.30, rely=0.10)
         
+        # Treeview
+        # Treeview
+        self.Tree = ttk.Treeview(self.FrDatos, columns=('USUARIO', 'NOMBRE', 'TITULO', 'FECHA_PRESTAMO', 'FECHA_DEVOLUCION'))
+        
+        # Configurar los headings
+        self.Tree.heading("#0", text="")
+        self.Tree.heading("USUARIO", text="Usuario")
+        self.Tree.heading("NOMBRE", text="Nombre")
+        self.Tree.heading("TITULO", text="Titulo")
+        self.Tree.heading("FECHA_PRESTAMO", text="Fecha Prestamo")
+        self.Tree.heading("FECHA_DEVOLUCION", text="Fecha Devolucion")
+
+        # Configurar la columna
+        self.Tree.column("#0", width=0)
+        self.Tree.column("USUARIO", width=100)
+        self.Tree.column("NOMBRE", width=140)
+        self.Tree.column("TITULO", width=120)
+        self.Tree.column("FECHA_PRESTAMO", width=120)
+        self.Tree.column("FECHA_DEVOLUCION", width=120)
+        
+        # Posicionar el Tree
+        self.Tree.place(relx=0.08, rely=0.28)
+        
+        # Cargar Datos
+        conexion.cargar_prestamos(self.Tree)
+        
         # Separador
         self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
-        self.Separador.place(relx=0.08, rely=0.27)
+        self.Separador.place(relx=0.08, rely=0.24)
     def Create_Add(self):
         self.delete_frdatos()
         # Cambiar Botones
@@ -279,7 +325,7 @@ class App():
         self.CbItems.place(relx=0.29, rely=0.62)
         
         # Btn Guardar
-        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029', command=self.Guardar_Prestamo)
+        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029')
         self.BtnGuardar.place(relx=0.25, rely=0.72)
         
         # Btn Cancelar

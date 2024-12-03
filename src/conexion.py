@@ -109,3 +109,33 @@ def obtener_libros():
     
     connection.close()
     return [titulo[0] for titulo in libros]
+
+def cargar_prestamos(tree):
+    try:
+        connection = connect_db()
+        
+        if connection.is_connected():
+            cursor = connection.cursor()
+
+            # Consulta SQL para obtener los datos de la tabla
+            query = "SELECT id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion FROM prestamos"
+            cursor.execute(query)
+
+            # Recuperar todos los resultados
+            rows = cursor.fetchall()
+
+            # Limpiar el Treeview antes de insertar nuevos datos
+            for row in tree.get_children():
+                tree.delete(row)
+
+            # Insertar los resultados en el Treeview
+            for row in rows:
+                tree.insert("", "end", values=row)
+
+    except Error as e:
+        print(f"Error al conectar a la base de datos: {e}")
+    
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
