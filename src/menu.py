@@ -446,7 +446,7 @@ class App():
         screen_width = Sanctions_window.winfo_screenwidth()
         screen_height = Sanctions_window.winfo_screenheight()
         window_width = 400
-        window_height = 400
+        window_height = 300
 
         position_top = int((screen_height / 2) - (window_height / 2))
         position_left = int((screen_width / 2) - (window_width / 2))
@@ -456,30 +456,30 @@ class App():
         Sanctions_window.resizable(False, False)
     
         LblMulta = tk.Label(Sanctions_window, text="Id Multa", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        LblMulta.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        LblMulta.place(relx=0.05, rely=0.10)
         self.TxtMulta = tk.Entry(Sanctions_window, font=("Roboto", 12))
-        self.TxtMulta.grid(row=0, column=1, padx=10, pady=10)
+        self.TxtMulta.place(relx=0.35, rely=0.10)
 
         LblUsuario = tk.Label(Sanctions_window, text="Id Usuario", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        LblUsuario.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        LblUsuario.place(relx=0.05, rely=0.25)
         self.TxtUsuario = tk.Entry(Sanctions_window, font=("Roboto", 12))
-        self.TxtUsuario.grid(row=1, column=1, padx=10, pady=10)
+        self.TxtUsuario.place(relx=0.35, rely=0.25)
 
         Lbl_Monto = tk.Label(Sanctions_window, text="Monto", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        Lbl_Monto.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+        Lbl_Monto.place(relx=0.05, rely=0.40)
         self.TxtMonto = tk.Entry(Sanctions_window, font=("Roboto", 12))
-        self.TxtMonto.grid(row=2, column=1, padx=10, pady=10)
+        self.TxtMonto.place(relx=0.35, rely=0.40)
 
         LblFecha = tk.Label(Sanctions_window, text="Fecha", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        LblFecha.grid(row=3, column=0, padx=10, pady=10, sticky="w")
+        LblFecha.place(relx=0.05, rely=0.55)
         self.TxtFecha = tk.Entry(Sanctions_window, font=("Roboto", 12))
-        self.TxtFecha.grid(row=3, column=1, padx=10, pady=10)
+        self.TxtFecha.place(relx=0.35, rely=0.55)
 
         save_button = tk.Button(Sanctions_window, text="Guardar", font=("Roboto", 12), bg="#005066", fg="#FFFFFF", command=self.Guardar_Sancion)
-        save_button.grid(row=6, column=0, columnspan=2, pady=20)
+        save_button.place(relx=0.25, rely=0.70)
     
         cancel_button = tk.Button(Sanctions_window, text="Cancelar", font=("Roboto", 12), bg="#D32F2F", fg="#FFFFFF", command=Sanctions_window.destroy)
-        cancel_button.grid(row=7, column=0, columnspan=2, pady=10)
+        cancel_button.place(relx=0.45, rely=0.70)
 
         Sanctions_window.transient(self.FrSanctions)
         Sanctions_window.grab_set()
@@ -505,7 +505,7 @@ class App():
         screen_width = add_window.winfo_screenwidth()
         screen_height = add_window.winfo_screenheight()
         window_width = 400
-        window_height = 400
+        window_height = 450
 
         position_top = int((screen_height / 2) - (window_height / 2))
         position_left = int((screen_width / 2) - (window_width / 2))
@@ -515,40 +515,40 @@ class App():
         add_window.resizable(False, False)
     
         label_codigo = tk.Label(add_window, text="Código", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        label_codigo.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        label_codigo.place(relx=0.05, rely=0.10)
         self.TxtCodigoAdd = tk.Entry(add_window, font=("Roboto", 12))
-        self.TxtCodigoAdd.grid(row=0, column=1, padx=10, pady=10)
+        self.TxtCodigoAdd.place(relx=0.35, rely=0.10)
 
         label_titulo = tk.Label(add_window, text="Titulo", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        label_titulo.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        label_titulo.place(relx=0.05, rely=0.20)
         self.TxtTituloAdd = tk.Entry(add_window, font=("Roboto", 12))
-        self.TxtTituloAdd.grid(row=1, column=1, padx=10, pady=10)
+        self.TxtTituloAdd.place(relx=0.35, rely=0.20)
 
         label_autor = tk.Label(add_window, text="Autor", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        label_autor.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+        label_autor.place(relx=0.05, rely=0.30)
         self.TxtAutorAdd = tk.Entry(add_window, font=("Roboto", 12))
-        self.TxtAutorAdd.grid(row=2, column=1, padx=10, pady=10)
+        self.TxtAutorAdd.place(relx=0.35, rely=0.30)
 
         label_Editorial = tk.Label(add_window, text="Editorial", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        label_Editorial.grid(row=3, column=0, padx=10, pady=10, sticky="w")
+        label_Editorial.place(relx=0.05, rely=0.40)
         self.TxtEditorialAdd = tk.Entry(add_window, font=("Roboto", 12))
-        self.TxtEditorialAdd.grid(row=3, column=1, padx=10, pady=10)
+        self.TxtEditorialAdd.place(relx=0.35, rely=0.40)
 
         label_categoria = tk.Label(add_window, text="Categoría", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        label_categoria.grid(row=4, column=0, padx=10, pady=10, sticky="w")
+        label_categoria.place(relx=0.05, rely=0.50)
         self.CbItemsAdd = ttk.Combobox(add_window, values=["Distopía", "Clásico", "Misterio", "Romance"], font=("Roboto", 12))
-        self.CbItemsAdd.grid(row=4, column=1, padx=10, pady=10)
+        self.CbItemsAdd.place(relx=0.35, rely=0.50)
     
         label_estado = tk.Label(add_window, text="Estado", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
-        label_estado.grid(row=5, column=0, padx=10, pady=10, sticky="w")
+        label_estado.place(relx=0.05, rely=0.60)
         self.CbEstadoAdd = ttk.Combobox(add_window, values=["Disponible", "No disponible"], font=("Roboto", 12))
-        self.CbEstadoAdd.grid(row=5, column=1, padx=10, pady=10)
+        self.CbEstadoAdd.place(relx=0.35, rely=0.60)
 
         save_button = tk.Button(add_window, text="Guardar", font=("Roboto", 12), bg="#005066", fg="#FFFFFF", command=self.Guardar_Registro)
-        save_button.grid(row=6, column=0, columnspan=2, pady=20)
+        save_button.place(relx=0.25, rely=0.70)
     
         cancel_button = tk.Button(add_window, text="Cancelar", font=("Roboto", 12), bg="#D32F2F", fg="#FFFFFF", command=add_window.destroy)
-        cancel_button.grid(row=7, column=0, columnspan=2, pady=10)
+        cancel_button.place(relx=0.45, rely=0.70)
 
         add_window.transient(self.FrInventory)
         add_window.grab_set()
@@ -561,7 +561,7 @@ class App():
         estado = self.CbEstadoAdd.get()
     
         if not codigo or not titulo or not autor or not editorial or not categoria or not estado:
-            mb.showwarning("Por favor complete todos los campos")
+            mb.showwarning(title="Por favor complete todos los campos", message="Los campos no pueden estar vacios")
             return
         
         conexion.Insertar_Datos(codigo, titulo, autor, editorial, categoria, estado)
@@ -658,7 +658,6 @@ class App():
             print(f"Error al guardar la sancion: {e}")
             mb.showerror(title='Error', message='Hubo un error al guardar el registro')
         
-    
     # Eliminar
     def Eliminar_Registro(self):
         selected_item = self.Tree.selection()
