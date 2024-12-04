@@ -64,11 +64,19 @@ def Insertar_Devolucion(codigo, nombre, titulo, fecha_devolucion, fecha_devoluci
     connection = connect_db()
     cursor = connection.cursor()
     
-    query = """
-    INSERT INTO devoluciones (id_usuario, nombre, titulo, fecha_devolucion, fecha_devolucion_real)
-    VALUES (%s, %s, %s, %s, %s)
-    """
+    query = "INSERT INTO devoluciones (id_usuario, nombre, titulo, fecha_devolucion, fecha_devolucion_real) VALUES (%s, %s, %s, %s, %s)"
     values = (codigo, nombre, titulo, fecha_devolucion, fecha_devolucion_real)
+    cursor.execute(query, values)
+    
+    connection.commit()
+    cursor.close()
+    connection.close()
+def Insertar_Sancion(codigo, usuario, monto, fecha):
+    connection = connect_db()
+    cursor = connection.cursor()
+    
+    query = "INSERT INTO multas (id_multa, id_usuario, monto_multa, fecha_multa) VALUES (%s, %s, %s, %s)"
+    values = (codigo, usuario, monto, fecha)
     cursor.execute(query, values)
     
     connection.commit()
@@ -80,6 +88,16 @@ def Eliminar_Datos(isbn):
     
     query = "DELETE FROM libros WHERE id_libro = %s"
     cursor.execute(query, (isbn,))
+    
+    connection.commit()
+    cursor.close()
+    connection.close()
+def Eliminar_Sancion(codigo):
+    connection = connect_db()
+    cursor = connection.cursor()
+    
+    query = "DELETE FROM multas WHERE id_usuario = %s"
+    cursor.execute(query, (codigo,))
     
     connection.commit()
     cursor.close()
@@ -109,6 +127,28 @@ def Consulta_Prestamos():
         cursor = connection.cursor()
         
         query = "SELECT id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion FROM prestamos"
+        
+        cursor.execute(query)
+        
+        resultados = cursor.fetchall()
+        connection.close()
+        return resultados
+def Consulta_Devoluciones():
+        connection = connect_db()
+        cursor = connection.cursor()
+        
+        query = "SELECT id_usuario, nombre, titulo, fecha_devolucion, fecha_devolucion_real FROM devoluciones"
+        
+        cursor.execute(query)
+        
+        resultados = cursor.fetchall()
+        connection.close()
+        return resultados
+def Consulta_Sanciones():
+        connection = connect_db()
+        cursor = connection.cursor()
+        
+        query = "SELECT id_multa, id_usuario, monto_multa, fecha_multa FROM multas"
         
         cursor.execute(query)
         

@@ -101,8 +101,6 @@ class App():
         # Consulta
         self.TxtConsulta = ctk.CTkEntry(self.FrButtons, width=400, fg_color='#FFFFFF', font=('Roboto', 18), text_color='#000000', placeholder_text='ISBN / ID / NOMBRE', placeholder_text_color='#a1a0a0')
         self.TxtConsulta.place(relx=0.26, rely=0.40)
-        
-        # Configurar el evento de cambio de texto en TxtConsulta
         self.TxtConsulta.bind("<KeyRelease>", self.Consulta_Libros)
         
         # Frame Grilla
@@ -124,11 +122,11 @@ class App():
         # Configurar la columna
         self.Tree.column("#0", width=0)
         self.Tree.column("ISBN", width=100)
-        self.Tree.column("Titulo", width=140)
-        self.Tree.column("Autor", width=120)
+        self.Tree.column("Titulo", width=160)
+        self.Tree.column("Autor", width=140)
         self.Tree.column("Editorial", width=120)
         self.Tree.column("Categoria", width=80)
-        self.Tree.column("Estado", width=60)
+        self.Tree.column("Estado", width=100)
         
         # Posicionar el Tree
         self.Tree.place(relx=0.06, rely=0.20)
@@ -136,7 +134,6 @@ class App():
         # Llenar datos
         conexion.Cargar_Datos(self.Tree)
         
-        # CRUD
         self.BtnNuevo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Nuevo, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.Agregar_Registro)
         self.BtnNuevo.place(relx=0.13, rely=0.06)
         tooltip.Hovertip(self.BtnNuevo, text='Agregar nuevo registro', hover_delay=100)
@@ -207,6 +204,7 @@ class App():
         # Entry Codigo
         self.TxtCodigo = ctk.CTkEntry(self.FrButtons, text_color='#000000', fg_color='#FFFFFF', width=290, height=4, font=('Roboto', 18))
         self.TxtCodigo.place(relx=0.40, rely=0.40)
+        self.TxtCodigo.bind("<KeyRelease>", self.Consulta_Sanciones)
         
         # Treeview
         self.Tree = ttk.Treeview(self.FrDatos, columns=('CODIGO', 'USUARIO', 'MONTO', 'FECHA'))
@@ -214,20 +212,30 @@ class App():
         # Configurar los headings
         self.Tree.heading("#0", text="")
         self.Tree.heading("CODIGO", text="Codigo")
-        self.Tree.heading("USUARIO", text="Usuario")
+        self.Tree.heading("USUARIO", text="Id Usuario")
         self.Tree.heading("MONTO", text="Monto")
         self.Tree.heading("FECHA", text="Fecha")
 
         # Configurar la columna
         self.Tree.column("#0", width=0)
         self.Tree.column("CODIGO", width=100)
-        self.Tree.column("USUARIO", width=140)
-        self.Tree.column("MONTO", width=120)
-        self.Tree.column("FECHA", width=120)
+        self.Tree.column("USUARIO", width=150)
+        self.Tree.column("MONTO", width=140)
+        self.Tree.column("FECHA", width=140)
         
         # Posicionar el Tree
-        self.Tree.place(relx=0.10, rely=0.10)
+        self.Tree.place(relx=0.17, rely=0.10)
 
+        # Nuevo
+        self.BtnNuevo = ctk.CTkButton(self.FrDatos, width=60, height=50, image=self.Nuevo, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.Agregar_Sancion)
+        self.BtnNuevo.place(relx=0.06, rely=0.10)
+        tooltip.Hovertip(self.BtnNuevo, text='Agregar nuevo registro', hover_delay=100)
+        
+        # Eliminar
+        self.BtnEliminar = ctk.CTkButton(self.FrDatos, width=60, height=50, image=self.Eliminar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.Eliminar_Sanciones)
+        self.BtnEliminar.place(relx=0.06, rely=0.30)
+        tooltip.Hovertip(self.BtnEliminar, text='Eliminar registro seleccionado', hover_delay=100)
+        
         # Cargar Datos
         conexion.Cargar_Sanciones(self.Tree)
         
@@ -263,9 +271,9 @@ class App():
         self.Tree.column("#0", width=0)
         self.Tree.column("USUARIO", width=100)
         self.Tree.column("NOMBRE", width=140)
-        self.Tree.column("TITULO", width=120)
-        self.Tree.column("FECHA_PRESTAMO", width=120)
-        self.Tree.column("FECHA_DEVOLUCION", width=120)
+        self.Tree.column("TITULO", width=150)
+        self.Tree.column("FECHA_PRESTAMO", width=140)
+        self.Tree.column("FECHA_DEVOLUCION", width=140)
         
         # Posicionar el Tree
         self.Tree.place(relx=0.08, rely=0.28)
@@ -345,23 +353,26 @@ class App():
         # Entry Codigo
         self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
         self.TxtCodigo.place(relx=0.30, rely=0.10)
+        self.TxtCodigo.bind("<KeyRelease>", self.Consulta_Devoluciones)
         
         # Treeview
-        self.Tree = ttk.Treeview(self.FrDatos, columns=('USUARIO', 'NOMBRE', 'FECHA_DEVOLUCION', 'FECHA_DEVOLUCION_REAL'))
+        self.Tree = ttk.Treeview(self.FrDatos, columns=('USUARIO', 'NOMBRE', 'TITULO', 'FECHA_DEVOLUCION', 'FECHA_DEVOLUCION_REAL'))
         
         # Configurar los headings
         self.Tree.heading("#0", text="")
         self.Tree.heading("USUARIO", text="Usuario")
         self.Tree.heading("NOMBRE", text="Nombre")
+        self.Tree.heading("TITULO", text="Titulo")
         self.Tree.heading("FECHA_DEVOLUCION", text="Fecha Devolucion")
         self.Tree.heading("FECHA_DEVOLUCION_REAL", text="Fecha Devolucion Real")
 
         # Configurar la columna
         self.Tree.column("#0", width=0)
         self.Tree.column("USUARIO", width=100)
-        self.Tree.column("NOMBRE", width=140)
+        self.Tree.column("NOMBRE", width=150)
+        self.Tree.column("TITULO", width=140)
         self.Tree.column("FECHA_DEVOLUCION", width=120)
-        self.Tree.column("FECHA_DEVOLUCION_REAL", width=150)
+        self.Tree.column("FECHA_DEVOLUCION_REAL", width=160)
         
         # Posicionar el Tree
         self.Tree.place(relx=0.08, rely=0.28)
@@ -427,7 +438,52 @@ class App():
         # Btn Cancelar
         self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029', command=self.Cancelar_Devolucion)
         self.BtnCancelar.place(relx=0.50, rely=0.72)
+    def Agregar_Sancion(self):
+        Sanctions_window = tk.Toplevel(self.FrSanctions)
+        Sanctions_window.title("Agregar Nueva Sancion")
+        Sanctions_window.config(bg="#002029")
     
+        screen_width = Sanctions_window.winfo_screenwidth()
+        screen_height = Sanctions_window.winfo_screenheight()
+        window_width = 400
+        window_height = 400
+
+        position_top = int((screen_height / 2) - (window_height / 2))
+        position_left = int((screen_width / 2) - (window_width / 2))
+
+        Sanctions_window.geometry(f"{window_width}x{window_height}+{position_left}+{position_top}")
+
+        Sanctions_window.resizable(False, False)
+    
+        LblMulta = tk.Label(Sanctions_window, text="Id Multa", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
+        LblMulta.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        self.TxtMulta = tk.Entry(Sanctions_window, font=("Roboto", 12))
+        self.TxtMulta.grid(row=0, column=1, padx=10, pady=10)
+
+        LblUsuario = tk.Label(Sanctions_window, text="Id Usuario", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
+        LblUsuario.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        self.TxtUsuario = tk.Entry(Sanctions_window, font=("Roboto", 12))
+        self.TxtUsuario.grid(row=1, column=1, padx=10, pady=10)
+
+        Lbl_Monto = tk.Label(Sanctions_window, text="Monto", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
+        Lbl_Monto.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+        self.TxtMonto = tk.Entry(Sanctions_window, font=("Roboto", 12))
+        self.TxtMonto.grid(row=2, column=1, padx=10, pady=10)
+
+        LblFecha = tk.Label(Sanctions_window, text="Fecha", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
+        LblFecha.grid(row=3, column=0, padx=10, pady=10, sticky="w")
+        self.TxtFecha = tk.Entry(Sanctions_window, font=("Roboto", 12))
+        self.TxtFecha.grid(row=3, column=1, padx=10, pady=10)
+
+        save_button = tk.Button(Sanctions_window, text="Guardar", font=("Roboto", 12), bg="#005066", fg="#FFFFFF", command=self.Guardar_Sancion)
+        save_button.grid(row=6, column=0, columnspan=2, pady=20)
+    
+        cancel_button = tk.Button(Sanctions_window, text="Cancelar", font=("Roboto", 12), bg="#D32F2F", fg="#FFFFFF", command=Sanctions_window.destroy)
+        cancel_button.grid(row=7, column=0, columnspan=2, pady=10)
+
+        Sanctions_window.transient(self.FrSanctions)
+        Sanctions_window.grab_set()
+
     # Commands
     def Home_Prestamos(self):
         self.Loans_Form()
@@ -572,6 +628,36 @@ class App():
         except Exception as e:
             print(f"Error al guardar el registro: {e}")
             mb.showerror(title='Error', message='Hubo un error al guardar el registro')
+    def Guardar_Sancion(self):
+        try:
+            codigo = self.TxtMulta.get()
+            usuario = self.TxtUsuario.get()
+            monto = self.TxtMonto.get()
+            fecha = self.TxtFecha.get()
+        
+            if not codigo or not usuario or not monto or not fecha:
+                mb.showwarning(title="Campos vacios", message="Los campos no pueden estar vacios")
+                return
+            
+            respuesta = mb.askyesno(title='Confirmar Devolucion', message='¿Estás seguro de que quieres confirmar la sancion?')
+            if respuesta:
+                try:
+                    conexion.Insertar_Sancion(codigo, usuario, monto, fecha)
+                    mb.showinfo(title='Guardado exitoso', message='La sancion se ha guardado correctamente')
+                except Exception as e:
+                    print(f"Error al registrar la sancion: {e}")
+                    mb.showerror(title='Error', message='Hubo un problema al registrar la sancion')
+        
+            self.TxtMulta.delete(0, tk.END)
+            self.TxtUsuario.delete(0, tk.END)
+            self.TxtMonto.delete(0, tk.END)
+            self.TxtFecha.delete(0, tk.END)
+            self.Sanctions_Form()
+            
+        except Exception as e:
+            print(f"Error al guardar la sancion: {e}")
+            mb.showerror(title='Error', message='Hubo un error al guardar el registro')
+        
     
     # Eliminar
     def Eliminar_Registro(self):
@@ -591,6 +677,26 @@ class App():
                 conexion.Eliminar_Datos(isbn)
                 self.Tree.delete(selected_item)
                 mb.showinfo("Eliminación exitosa", f"El registro con ISBN {isbn} ha sido eliminado.")
+        
+            except Exception as e:
+                mb.showerror("Error", f"Hubo un error al intentar eliminar el registro: {e}")
+    def Eliminar_Sanciones(self):
+        selected_item = self.Tree.selection()
+
+        if not selected_item:
+            mb.showwarning("Selección vacía", "Por favor, selecciona un registro para eliminar.")
+            return
+
+        item_values = self.Tree.item(selected_item)['values']
+    
+        codigo = item_values[1]
+        confirm = mb.askyesno("Confirmar eliminación", f"¿Estás seguro de que deseas eliminar el registro con Codigo: {codigo}?")
+
+        if confirm:
+            try:
+                conexion.Eliminar_Sancion(codigo)
+                self.Tree.delete(selected_item)
+                mb.showinfo("Eliminación exitosa", f"El registro con Codigo {codigo} ha sido eliminado.")
         
             except Exception as e:
                 mb.showerror("Error", f"Hubo un error al intentar eliminar el registro: {e}")
@@ -618,6 +724,36 @@ class App():
             self.Tree.delete(item)
     
         all_data = conexion.Consulta_Prestamos()
+    
+        filtered_data = []
+        for record in all_data:
+            if any(search_text in str(field).lower() for field in record):
+                filtered_data.append(record)
+        
+        for record in filtered_data:
+            self.Tree.insert("", "end", values=record)
+    def Consulta_Devoluciones(self, event):
+        search_text = self.TxtCodigo.get().lower()
+    
+        for item in self.Tree.get_children():
+            self.Tree.delete(item)
+    
+        all_data = conexion.Consulta_Devoluciones()
+    
+        filtered_data = []
+        for record in all_data:
+            if any(search_text in str(field).lower() for field in record):
+                filtered_data.append(record)
+        
+        for record in filtered_data:
+            self.Tree.insert("", "end", values=record)
+    def Consulta_Sanciones(self, event):
+        search_text = self.TxtCodigo.get().lower()
+    
+        for item in self.Tree.get_children():
+            self.Tree.delete(item)
+    
+        all_data = conexion.Consulta_Sanciones()
     
         filtered_data = []
         for record in all_data:
