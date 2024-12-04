@@ -110,7 +110,7 @@ class App():
         self.FrGrilla.place(relx=0.05, rely=0.20)
         
         # Treeview
-        self.Tree = ttk.Treeview(self.FrGrilla, columns=('ISBN', 'Titulo', 'Autor', 'Editorial', 'Categoria', 'Estado', 'Fecha_Ingreso'))
+        self.Tree = ttk.Treeview(self.FrGrilla, columns=('ISBN', 'Titulo', 'Autor', 'Editorial', 'Categoria', 'Estado'))
         
         # Configurar los headings
         self.Tree.heading("#0", text="")
@@ -120,7 +120,6 @@ class App():
         self.Tree.heading("Editorial", text="Editorial")
         self.Tree.heading("Categoria", text="Categoría")
         self.Tree.heading("Estado", text="Estado")
-        self.Tree.heading("Fecha_Ingreso", text="Fecha Ingreso")
         
         # Configurar la columna
         self.Tree.column("#0", width=0)
@@ -130,7 +129,6 @@ class App():
         self.Tree.column("Editorial", width=120)
         self.Tree.column("Categoria", width=80)
         self.Tree.column("Estado", width=60)
-        self.Tree.column("Fecha_Ingreso", width=70)
         
         # Posicionar el Tree
         self.Tree.place(relx=0.06, rely=0.20)
@@ -327,11 +325,11 @@ class App():
         self.CbItems.place(relx=0.29, rely=0.62)
         
         # Btn Guardar
-        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029')
+        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029', command=self.Guardar_Prestamo)
         self.BtnGuardar.place(relx=0.25, rely=0.72)
         
         # Btn Cancelar
-        self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029')
+        self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029', command=self.Cancelar_Prestamo)
         self.BtnCancelar.place(relx=0.50, rely=0.72)
     def Create_Search_Devoluciones(self):
         self.delete_frdatos()
@@ -399,7 +397,7 @@ class App():
         self.TxtNombre.place(relx=0.40, rely=0.20)
         
         # Label Fecha Devolucion
-        self.LblFechaDevolucion = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', text='Fecha prestamo', text_color='#FFFFFF', font=('Roboto', 18), anchor='w')
+        self.LblFechaDevolucion = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', text='Fecha Devolucion', text_color='#FFFFFF', font=('Roboto', 18), anchor='w')
         self.LblFechaDevolucion.place(relx=0.20, rely=0.30)
         
         # Entry Fecha Devolucion
@@ -407,7 +405,7 @@ class App():
         self.TxtFechaDevolucion.place(relx=0.40, rely=0.30)
 
         # Label Ficha
-        self.LblFechaDevolucionReal = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', text='Fecha Devolucion', anchor='w')
+        self.LblFechaDevolucionReal = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', text='Fecha Real', anchor='w')
         self.LblFechaDevolucionReal.place(relx=0.20, rely=0.40)
         
         # Entry Ficha
@@ -423,17 +421,26 @@ class App():
         self.CbItems.place(relx=0.29, rely=0.62)
         
         # Btn Guardar
-        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029')
+        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029', command=self.Guardar_Devolucion)
         self.BtnGuardar.place(relx=0.25, rely=0.72)
         
         # Btn Cancelar
-        self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029')
+        self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029', command=self.Cancelar_Devolucion)
         self.BtnCancelar.place(relx=0.50, rely=0.72)
+    
     # Commands
     def Home_Prestamos(self):
         self.Loans_Form()
     def Home_Devoluciones(self):
         self.Returns_Form()
+    def Cerrar_Sesion(self):
+        # Confirmar si el usuario realmente desea cerrar sesión
+        respuesta = mb.askyesno("Cerrar sesión", "¿Estás seguro de que quieres cerrar sesión?")
+        if respuesta:
+            self.FrmMenu.destroy()
+            login.Start()
+    
+    # Guardar
     def Agregar_Registro(self):
         add_window = tk.Toplevel(self.FrInventory)
         add_window.title("Agregar Nuevo Registro")
@@ -498,10 +505,11 @@ class App():
         estado = self.CbEstadoAdd.get()
     
         if not codigo or not titulo or not autor or not editorial or not categoria or not estado:
-            print("Por favor complete todos los campos")
+            mb.showwarning("Por favor complete todos los campos")
             return
-    
+        
         conexion.Insertar_Datos(codigo, titulo, autor, editorial, categoria, estado)
+        mb.showinfo(title='Guardado Exitoso', message='El prestamo se ha guardado correctamente')
     
         self.TxtCodigoAdd.delete(0, tk.END)
         self.TxtTituloAdd.delete(0, tk.END)
@@ -511,6 +519,61 @@ class App():
         self.CbEstadoAdd.set('')
 
         self.Inventory_Panel()
+    def Guardar_Prestamo(self):
+        try:
+            codigo = self.TxtCodigo.get()
+            nombre = self.TxtNombre.get()
+            titulo = self.CbItems.get()
+            fecha_prestamo = self.TxtFechaPrestamo.get()
+            fecha_devolucion = self.TxtFechaDevolucion.get()
+        
+            if not codigo or not nombre or not titulo or not fecha_prestamo or not fecha_devolucion:
+                mb.showwarning(title="Campos vacios", message="Los campos no pueden estar vacios")
+                return
+
+            conexion.Insertar_Prestamos(codigo, nombre, titulo, fecha_prestamo, fecha_devolucion)
+            mb.showinfo(title='Guardado exitoso', message='El prestamo se ha guardado correctamente')
+        
+            self.TxtCodigo.delete(0, tk.END)
+            self.TxtNombre.delete(0, tk.END)
+            self.CbItems.set('')
+            self.TxtFechaPrestamo.delete(0, tk.END)
+            self.TxtFechaDevolucion.delete(0, tk.END)
+        except Exception as e:
+            print(f"Error al guardar el registro: {e}")
+            mb.showerror(title='Error', message='Hubo un error al guardar el registro')
+    def Guardar_Devolucion(self):
+        try:
+            codigo = self.TxtCodigo.get()
+            nombre = self.TxtNombre.get()
+            titulo = self.CbItems.get()
+            fecha_devolucion = self.TxtFechaDevolucion.get()
+            fecha_devolucion_real = self.TxtFechaDevolucionReal.get()
+        
+            if not codigo or not nombre or not titulo or not fecha_devolucion or not fecha_devolucion_real:
+                mb.showwarning(title="Campos vacios", message="Los campos no pueden estar vacios")
+                return
+            
+            respuesta = mb.askyesno(title='Confirmar Devolucion', message='¿Estás seguro de que quieres confirmar la devolucion?')
+            if respuesta:
+                try:
+                    conexion.Insertar_Devolucion(codigo, nombre, titulo, fecha_devolucion, fecha_devolucion_real)
+                    conexion.Eliminar_Prestamo(codigo)
+                    mb.showinfo(title='Guardado exitoso', message='La devolucion se ha guardado correctamente')
+                except Exception as e:
+                    print(f"Error al registrar la devolución o eliminar el préstamo: {e}")
+                    mb.showerror(title='Error', message='Hubo un problema al registrar la devolución o al eliminar el préstamo')
+        
+            self.TxtCodigo.delete(0, tk.END)
+            self.TxtNombre.delete(0, tk.END)
+            self.CbItems.set('')
+            self.TxtFechaDevolucion.delete(0, tk.END)
+            self.TxtFechaDevolucionReal.delete(0, tk.END)
+        except Exception as e:
+            print(f"Error al guardar el registro: {e}")
+            mb.showerror(title='Error', message='Hubo un error al guardar el registro')
+    
+    # Eliminar
     def Eliminar_Registro(self):
         selected_item = self.Tree.selection()
 
@@ -531,6 +594,8 @@ class App():
         
             except Exception as e:
                 mb.showerror("Error", f"Hubo un error al intentar eliminar el registro: {e}")
+    
+    # Consultar
     def Consulta_Libros(self, event):
         search_text = self.TxtConsulta.get().lower()
     
@@ -561,6 +626,8 @@ class App():
         
         for record in filtered_data:
             self.Tree.insert("", "end", values=record)
+    
+    # Comandos
     def Cargar_Prestamos(self, event):
         user_id = self.TxtCodigo.get()
 
@@ -568,12 +635,24 @@ class App():
             libros_prestados = conexion.Obtener_Prestamos(user_id)
             titulos_libros = [libro[2] for libro in libros_prestados]
             self.CbItems.configure(values=titulos_libros)
-    def Cerrar_Sesion(self):
-        # Confirmar si el usuario realmente desea cerrar sesión
-        respuesta = mb.askyesno("Cerrar sesión", "¿Estás seguro de que quieres cerrar sesión?")
+    def Cancelar_Prestamo(self):
+        respuesta = mb.askyesno(title='Cancelar', message='¿Estás seguro de que quieres cancelar?')
         if respuesta:
-            self.FrmMenu.destroy()
-            login.Start()
+            self.TxtCodigo.delete(0, tk.END)
+            self.TxtNombre.delete(0, tk.END)
+            self.TxtFechaPrestamo.delete(0, tk.END)
+            self.TxtFechaDevolucion.delete(0, tk.END)
+            self.CbItems.set('')
+            self.Home_Prestamos()
+    def Cancelar_Devolucion(self):
+        respuesta = mb.askyesno(title='Cancelar', message='¿Estás seguro de que quieres cancelar?')
+        if respuesta:
+            self.TxtCodigo.delete(0, tk.END)
+            self.TxtNombre.delete(0, tk.END)
+            self.TxtFechaDevolucion.delete(0, tk.END)
+            self.TxtFechaDevolucionReal.delete(0, tk.END)
+            self.CbItems.set('')
+            self.Home_Devoluciones()
     
     # Indicadores
     def Hide_Indicators(self):
@@ -594,9 +673,6 @@ class App():
     def delete_frdatos(self):
         for frame in self.FrDatos.winfo_children():
             frame.destroy()
-    def vaciar_treeview(self):
-        for item in self.tree.get_children():
-            self.tree.delete(item)
     
     # Controles
     def Controles_Panel_Lateral(self):

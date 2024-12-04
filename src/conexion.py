@@ -46,6 +46,34 @@ def Insertar_Datos(codigo, titulo, autor, editorial, categoria, estado):
     connection.commit()
     cursor.close()
     connection.close()
+def Insertar_Prestamos(codigo, nombre, titulo, fecha_prestamo, fecha_devolucion):
+    connection = connect_db()
+    cursor = connection.cursor()
+    
+    query = """
+    INSERT INTO prestamos (id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    values = (codigo, nombre, titulo, fecha_prestamo, fecha_devolucion)
+    cursor.execute(query, values)
+    
+    connection.commit()
+    cursor.close()
+    connection.close()
+def Insertar_Devolucion(codigo, nombre, titulo, fecha_devolucion, fecha_devolucion_real):
+    connection = connect_db()
+    cursor = connection.cursor()
+    
+    query = """
+    INSERT INTO devoluciones (id_usuario, nombre, titulo, fecha_devolucion, fecha_devolucion_real)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    values = (codigo, nombre, titulo, fecha_devolucion, fecha_devolucion_real)
+    cursor.execute(query, values)
+    
+    connection.commit()
+    cursor.close()
+    connection.close()
 def Eliminar_Datos(isbn):
     connection = connect_db()
     cursor = connection.cursor()
@@ -56,6 +84,13 @@ def Eliminar_Datos(isbn):
     connection.commit()
     cursor.close()
     connection.close()
+def Eliminar_Prestamo(codigo):
+    connection = connect_db()
+    cursor = connection.cursor()
+    
+    query = "DELETE FROM prestamos WHERE id_usuario = %s"
+    cursor.execute(query, (codigo,))
+    connection.commit()
 
 # Gets
 def Obtener_Datos():
@@ -158,7 +193,7 @@ def Cargar_Devoluciones(tree):
         
         if connection.is_connected():
             cursor = connection.cursor()
-            query = "SELECT id_usuario, nombre, fecha_devolucion, fecha_devolucion_real FROM devoluciones"
+            query = "SELECT id_usuario, nombre, titulo, fecha_devolucion, fecha_devolucion_real FROM devoluciones"
             cursor.execute(query)
 
             rows = cursor.fetchall()

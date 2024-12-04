@@ -34,7 +34,7 @@ class App():
         self.loading()
         self.FrmSplash.mainloop()
     
-    def centerWindow(self):
+    def centerWindow(self): 
          
          W = 800
          H = 400
