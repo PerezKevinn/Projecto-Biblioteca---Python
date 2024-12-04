@@ -2,6 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 import tooltip
 import conexion
+import login
 from tkinter import messagebox as mb
 from tkinter import ttk
 from PIL import Image
@@ -88,7 +89,6 @@ class App():
 
     # Formularios
     def Inventory_Panel(self):
-        
         # Frame de Inventario
         self.FrInventory = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
         self.FrInventory.place(relx=0.05, rely=0)
@@ -103,7 +103,7 @@ class App():
         self.TxtConsulta.place(relx=0.26, rely=0.40)
         
         # Configurar el evento de cambio de texto en TxtConsulta
-        self.TxtConsulta.bind("<KeyRelease>", self.consultar_dinamicamente)
+        self.TxtConsulta.bind("<KeyRelease>", self.Consulta_Libros)
         
         # Frame Grilla
         self.FrGrilla = ctk.CTkFrame(self.FrInventory, width=800, height=500, corner_radius=30, fg_color='#005066')
@@ -136,18 +136,17 @@ class App():
         self.Tree.place(relx=0.06, rely=0.20)
         
         # Llenar datos
-        conexion.cargar_datos(self.Tree)
+        conexion.Cargar_Datos(self.Tree)
         
         # CRUD
-        self.BtnNuevo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Nuevo, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.open_add_record_window)
+        self.BtnNuevo = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Nuevo, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.Agregar_Registro)
         self.BtnNuevo.place(relx=0.13, rely=0.06)
         tooltip.Hovertip(self.BtnNuevo, text='Agregar nuevo registro', hover_delay=100)
         
-        self.BtnEliminar = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Eliminar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.eliminar_dato)
+        self.BtnEliminar = ctk.CTkButton(self.FrGrilla, width=60, height=50, image=self.Eliminar, text='', fg_color='#005066', border_width=1, border_color='#FFFFFF', command=self.Eliminar_Registro)  
         self.BtnEliminar.place(relx=0.33, rely=0.06)
         tooltip.Hovertip(self.BtnEliminar, text='Eliminar registro seleccionado', hover_delay=100)
     def Loans_Form(self): 
-        
         # Frame Prestamos
         self.FrLoans = tk.Frame(self.FrPages, background='#002029', width=900, height=800)
         self.FrLoans.place(relx=0.05, rely=0)
@@ -183,11 +182,11 @@ class App():
         self.FrDatos.place(relx=0.05, rely=0.20)
         
         # Btn Consultar
-        self.BtnConsultar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Consultar, text='Consultar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Search)
+        self.BtnConsultar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Consultar, text='Consultar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Search_Devoluciones)
         self.BtnConsultar.place(relx=0.25, rely=0.18)
         
         # Btn Registrar
-        self.BtnRegistrar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Registrar, text='Registrar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Add)
+        self.BtnRegistrar = ctk.CTkButton(self.FrButtons, width=150, height=80, image=self.Registrar, text='Registrar', fg_color='#005066', text_color='#FFFFFF', compound='left', font=('Roboto', 18, 'bold'), border_width=1, border_color='#FFFFFF', hover=True, hover_color='#002029', command=self.Create_Add_Devoluciones)
         self.BtnRegistrar.place(relx=0.50, rely=0.18)
     def Sanctions_Form(self):
         # Frame Sanciones
@@ -230,12 +229,15 @@ class App():
         
         # Posicionar el Tree
         self.Tree.place(relx=0.10, rely=0.10)
-    
+
+        # Cargar Datos
+        conexion.Cargar_Sanciones(self.Tree)
+        
     # Frames
     def Create_Search(self):
         self.delete_frdatos()
         # Cambiar Boton
-        self.BtnConsultar.configure(image=self.Inicio, text='Inicio', command=self.Home)
+        self.BtnConsultar.configure(image=self.Inicio, text='Inicio', command=self.Home_Prestamos)
         if (self.BtnRegistrar.cget('image') == self.Inicio):
             self.BtnRegistrar.configure(image=self.Registrar, text='Registrar', command=self.Create_Add)
         
@@ -246,8 +248,8 @@ class App():
         # Entry Codigo
         self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
         self.TxtCodigo.place(relx=0.30, rely=0.10)
+        self.TxtCodigo.bind("<KeyRelease>", self.Consulta_Prestamos)
         
-        # Treeview
         # Treeview
         self.Tree = ttk.Treeview(self.FrDatos, columns=('USUARIO', 'NOMBRE', 'TITULO', 'FECHA_PRESTAMO', 'FECHA_DEVOLUCION'))
         
@@ -271,7 +273,7 @@ class App():
         self.Tree.place(relx=0.08, rely=0.28)
         
         # Cargar Datos
-        conexion.cargar_prestamos(self.Tree)
+        conexion.Cargar_Prestamos(self.Tree)
         
         # Separador
         self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
@@ -279,7 +281,7 @@ class App():
     def Create_Add(self):
         self.delete_frdatos()
         # Cambiar Botones
-        self.BtnRegistrar.configure(image=self.Inicio, text='Inicio', command=self.Home)
+        self.BtnRegistrar.configure(image=self.Inicio, text='Inicio', command=self.Home_Prestamos)
         if (self.BtnConsultar.cget('image') == self.Inicio):
             self.BtnConsultar.configure(image=self.Consultar, text='Consultar', command=self.Create_Search)
         
@@ -320,7 +322,7 @@ class App():
         self.Separador.place(relx=0.08, rely=0.52)
         
         # Combobox Items
-        libros = conexion.obtener_libros()
+        libros = conexion.Obtener_Libros()
         self.CbItems = ctk.CTkComboBox(self.FrDatos, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18),  width=320, button_color='#f09641', values=libros, state='readonly')
         self.CbItems.place(relx=0.29, rely=0.62)
         
@@ -331,33 +333,124 @@ class App():
         # Btn Cancelar
         self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029')
         self.BtnCancelar.place(relx=0.50, rely=0.72)
+    def Create_Search_Devoluciones(self):
+        self.delete_frdatos()
+        # Cambiar Boton
+        self.BtnConsultar.configure(image=self.Inicio, text='Inicio', command=self.Home_Devoluciones)
+        if (self.BtnRegistrar.cget('image') == self.Inicio):
+            self.BtnRegistrar.configure(image=self.Registrar, text='Registrar', command=self.Create_Add_Devoluciones)
+        
+        # Label Codigo
+        self.LblCodigo = ctk.CTkLabel(self.FrDatos, width=120, font=('Roboto', 18), text='Ingrese el codigo:')
+        self.LblCodigo.place(relx=0.10, rely=0.10)
+        
+        # Entry Codigo
+        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=400, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtCodigo.place(relx=0.30, rely=0.10)
+        
+        # Treeview
+        self.Tree = ttk.Treeview(self.FrDatos, columns=('USUARIO', 'NOMBRE', 'FECHA_DEVOLUCION', 'FECHA_DEVOLUCION_REAL'))
+        
+        # Configurar los headings
+        self.Tree.heading("#0", text="")
+        self.Tree.heading("USUARIO", text="Usuario")
+        self.Tree.heading("NOMBRE", text="Nombre")
+        self.Tree.heading("FECHA_DEVOLUCION", text="Fecha Devolucion")
+        self.Tree.heading("FECHA_DEVOLUCION_REAL", text="Fecha Devolucion Real")
 
+        # Configurar la columna
+        self.Tree.column("#0", width=0)
+        self.Tree.column("USUARIO", width=100)
+        self.Tree.column("NOMBRE", width=140)
+        self.Tree.column("FECHA_DEVOLUCION", width=120)
+        self.Tree.column("FECHA_DEVOLUCION_REAL", width=150)
+        
+        # Posicionar el Tree
+        self.Tree.place(relx=0.08, rely=0.28)
+        
+        # Cargar Datos
+        conexion.Cargar_Devoluciones(self.Tree)
+        
+        # Separador
+        self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
+        self.Separador.place(relx=0.08, rely=0.24)
+    def Create_Add_Devoluciones(self):
+        self.delete_frdatos()
+        # Cambiar Botones
+        self.BtnRegistrar.configure(image=self.Inicio, text='Inicio', command=self.Home_Devoluciones)
+        if (self.BtnConsultar.cget('image') == self.Inicio):
+            self.BtnConsultar.configure(image=self.Consultar, text='Consultar', command=self.Create_Search_Devoluciones)
+        
+        # Label Codigo
+        self.LblCodigo = ctk.CTkLabel(self.FrDatos, text='Codigo', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=280, anchor='w')
+        self.LblCodigo.place(relx=0.20, rely=0.10)
+        
+        # Entry Codigo
+        self.TxtCodigo = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtCodigo.place(relx=0.40, rely=0.10)
+        self.TxtCodigo.bind("<FocusOut>", self.Cargar_Prestamos)
+        
+        # Label Nombre
+        self.LblNombre = ctk.CTkLabel(self.FrDatos, text='Nombre', fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', width=280, anchor='w')
+        self.LblNombre.place(relx=0.20, rely=0.20)
+        
+        # Entry Nombre
+        self.TxtNombre = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtNombre.place(relx=0.40, rely=0.20)
+        
+        # Label Fecha Devolucion
+        self.LblFechaDevolucion = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', text='Fecha prestamo', text_color='#FFFFFF', font=('Roboto', 18), anchor='w')
+        self.LblFechaDevolucion.place(relx=0.20, rely=0.30)
+        
+        # Entry Fecha Devolucion
+        self.TxtFechaDevolucion = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18))
+        self.TxtFechaDevolucion.place(relx=0.40, rely=0.30)
+
+        # Label Ficha
+        self.LblFechaDevolucionReal = ctk.CTkLabel(self.FrDatos, width=280, fg_color='#005066', font=('Roboto', 18), text_color='#FFFFFF', text='Fecha Devolucion', anchor='w')
+        self.LblFechaDevolucionReal.place(relx=0.20, rely=0.40)
+        
+        # Entry Ficha
+        self.TxtFechaDevolucionReal = ctk.CTkEntry(self.FrDatos, width=280, fg_color='#FFFFFF', font=('Roboto', 18), text_color='#000000')
+        self.TxtFechaDevolucionReal.place(relx=0.40, rely=0.40)
+        
+        # Separador
+        self.Separador = ctk.CTkLabel(self.FrDatos, width=670, fg_color='#FFFFFF', text='', font=('Roboto', 2), height=2)
+        self.Separador.place(relx=0.08, rely=0.52)
+        
+        # Combobox Items
+        self.CbItems = ctk.CTkComboBox(self.FrDatos, fg_color='#FFFFFF', text_color='#000000', font=('Roboto', 18),  width=320, button_color='#f09641', state='readonly')
+        self.CbItems.place(relx=0.29, rely=0.62)
+        
+        # Btn Guardar
+        self.BtnGuardar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Guardar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Guardar, hover=True, hover_color='#002029')
+        self.BtnGuardar.place(relx=0.25, rely=0.72)
+        
+        # Btn Cancelar
+        self.BtnCancelar = ctk.CTkButton(self.FrDatos, fg_color='#005066', text='Cancelar', font=('Roboto', 18, 'bold'), width=150, height=80, border_color='#FFFFFF', border_width=1, compound='left', image=self.Cancelar, hover=True, hover_color='#002029')
+        self.BtnCancelar.place(relx=0.50, rely=0.72)
     # Commands
-    def Home(self):
+    def Home_Prestamos(self):
         self.Loans_Form()
-    def open_add_record_window(self):
-        # Crear una nueva ventana encima de la principal
+    def Home_Devoluciones(self):
+        self.Returns_Form()
+    def Agregar_Registro(self):
         add_window = tk.Toplevel(self.FrInventory)
         add_window.title("Agregar Nuevo Registro")
         add_window.config(bg="#002029")
     
-        # Obtener las dimensiones de la pantalla y la ventana principal
         screen_width = add_window.winfo_screenwidth()
         screen_height = add_window.winfo_screenheight()
         window_width = 400
         window_height = 400
 
-        # Calcular la posición centrada en la pantalla
         position_top = int((screen_height / 2) - (window_height / 2))
         position_left = int((screen_width / 2) - (window_width / 2))
 
-        # Establecer la geometría para centrar la ventana
         add_window.geometry(f"{window_width}x{window_height}+{position_left}+{position_top}")
 
-        # Desactivar la opción de redimensionar
         add_window.resizable(False, False)
     
-        # Etiquetas y campos de entrada para los datos
         label_codigo = tk.Label(add_window, text="Código", font=("Roboto", 12), bg="#002029", fg="#FFFFFF")
         label_codigo.grid(row=0, column=0, padx=10, pady=10, sticky="w")
         self.TxtCodigoAdd = tk.Entry(add_window, font=("Roboto", 12))
@@ -388,19 +481,15 @@ class App():
         self.CbEstadoAdd = ttk.Combobox(add_window, values=["Disponible", "No disponible"], font=("Roboto", 12))
         self.CbEstadoAdd.grid(row=5, column=1, padx=10, pady=10)
 
-        # Botón para guardar el nuevo registro
-        save_button = tk.Button(add_window, text="Guardar", font=("Roboto", 12), bg="#005066", fg="#FFFFFF", command=self.save_new_record)
+        save_button = tk.Button(add_window, text="Guardar", font=("Roboto", 12), bg="#005066", fg="#FFFFFF", command=self.Guardar_Registro)
         save_button.grid(row=6, column=0, columnspan=2, pady=20)
     
-        # Botón para cerrar la ventana emergente
         cancel_button = tk.Button(add_window, text="Cancelar", font=("Roboto", 12), bg="#D32F2F", fg="#FFFFFF", command=add_window.destroy)
         cancel_button.grid(row=7, column=0, columnspan=2, pady=10)
 
-        # Hacer que la ventana se cierre automáticamente cuando se presione el botón "Guardar"
         add_window.transient(self.FrInventory)
         add_window.grab_set()
-    def save_new_record(self):
-        # Obtener los datos de los campos de entrada
+    def Guardar_Registro(self):
         codigo = self.TxtCodigoAdd.get()
         titulo = self.TxtTituloAdd.get()
         autor = self.TxtAutorAdd.get()
@@ -408,75 +497,84 @@ class App():
         categoria = self.CbItemsAdd.get()
         estado = self.CbEstadoAdd.get()
     
-        # Verificar si todos los campos están llenos
         if not codigo or not titulo or not autor or not editorial or not categoria or not estado:
             print("Por favor complete todos los campos")
             return
     
-        # Insertar los datos en la base de datos
-        conexion.insertar_dato(codigo, titulo, autor, editorial, categoria, estado)
+        conexion.Insertar_Datos(codigo, titulo, autor, editorial, categoria, estado)
     
-        # Cerrar la ventana de agregar registro
         self.TxtCodigoAdd.delete(0, tk.END)
         self.TxtTituloAdd.delete(0, tk.END)
         self.TxtAutorAdd.delete(0, tk.END)
         self.TxtEditorialAdd.delete(0, tk.END)
         self.CbItemsAdd.set('')
         self.CbEstadoAdd.set('')
-    
-        # Recargar los datos en el Treeview de la ventana principal
+
         self.Inventory_Panel()
-    def eliminar_dato(self):
-        # Obtener el ID del item seleccionado
+    def Eliminar_Registro(self):
         selected_item = self.Tree.selection()
 
-        if not selected_item:  # Verificar si se ha seleccionado algún item
+        if not selected_item:
             mb.showwarning("Selección vacía", "Por favor, selecciona un registro para eliminar.")
             return
 
-        # Obtener los valores del item seleccionado
         item_values = self.Tree.item(selected_item)['values']
     
-        # Suponiendo que 'ISBN' es el primer valor del item, lo usamos para eliminar el registro
         isbn = item_values[0]
-
-        # Confirmar con el usuario si desea eliminar el registro
         confirm = mb.askyesno("Confirmar eliminación", f"¿Estás seguro de que deseas eliminar el registro con ISBN: {isbn}?")
 
         if confirm:
-            # Llamar a la función para eliminar el registro de la base de datos
             try:
-             # Suponiendo que la función `conexion.eliminar_dato(isbn)` elimina el registro de la base de datos
-                conexion.eliminar_dato(isbn)
-            
-                # Eliminar el item del Treeview
+                conexion.Eliminar_Datos(isbn)
                 self.Tree.delete(selected_item)
-
-                # Mostrar mensaje de éxito
                 mb.showinfo("Eliminación exitosa", f"El registro con ISBN {isbn} ha sido eliminado.")
         
             except Exception as e:
-                # Si ocurre algún error, mostrar un mensaje
                 mb.showerror("Error", f"Hubo un error al intentar eliminar el registro: {e}")
-        # Obtener los valores de los campos
-    def consultar_dinamicamente(self, event):
-        # Obtener el texto de la caja de texto de consulta
+    def Consulta_Libros(self, event):
         search_text = self.TxtConsulta.get().lower()
     
         for item in self.Tree.get_children():
             self.Tree.delete(item)
     
-        all_data = conexion.obtener_datos()
+        all_data = conexion.Obtener_Datos()
     
         filtered_data = []
         for record in all_data:
             if any(search_text in str(field).lower() for field in record):
                 filtered_data.append(record)
-    
+        
         for record in filtered_data:
             self.Tree.insert("", "end", values=record)
-        mb.showwarning(title="Resultado", message=mensaje).show()
+    def Consulta_Prestamos(self, event):
+        search_text = self.TxtCodigo.get().lower()
+    
+        for item in self.Tree.get_children():
+            self.Tree.delete(item)
+    
+        all_data = conexion.Consulta_Prestamos()
+    
+        filtered_data = []
+        for record in all_data:
+            if any(search_text in str(field).lower() for field in record):
+                filtered_data.append(record)
         
+        for record in filtered_data:
+            self.Tree.insert("", "end", values=record)
+    def Cargar_Prestamos(self, event):
+        user_id = self.TxtCodigo.get()
+
+        if user_id:
+            libros_prestados = conexion.Obtener_Prestamos(user_id)
+            titulos_libros = [libro[2] for libro in libros_prestados]
+            self.CbItems.configure(values=titulos_libros)
+    def Cerrar_Sesion(self):
+        # Confirmar si el usuario realmente desea cerrar sesión
+        respuesta = mb.askyesno("Cerrar sesión", "¿Estás seguro de que quieres cerrar sesión?")
+        if respuesta:
+            self.FrmMenu.destroy()
+            login.Start()
+    
     # Indicadores
     def Hide_Indicators(self):
         self.IndInventario.configure(bg='#005066')
@@ -496,7 +594,10 @@ class App():
     def delete_frdatos(self):
         for frame in self.FrDatos.winfo_children():
             frame.destroy()
-
+    def vaciar_treeview(self):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+    
     # Controles
     def Controles_Panel_Lateral(self):
         # Label Foto
@@ -532,7 +633,7 @@ class App():
         self.BtnSanciones.place(relx=0, rely=0.67)
         
         # Btn Salir
-        self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.Salir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False)
+        self.BtnSalir = ctk.CTkButton(self.FrNav, fg_color='#005066', text='Cerrar Sesion', image=self.Salir, width=250, height=10, compound='left', corner_radius=0, font=('Roboto', 18, 'bold'), anchor='w', border_spacing=10, hover=False, command=self.Cerrar_Sesion)
         self.BtnSalir.place(relx=0, rely=0.92)
 def Start():
     App()

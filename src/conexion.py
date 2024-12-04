@@ -2,6 +2,7 @@ import mysql.connector
 from tkinter import messagebox as mb
 from mysql.connector import Error
 
+# Conexion
 def connect_db():
     try:
         connection = mysql.connector.connect(host='localhost', user='root', passwd='', database='Biblioteca')
@@ -9,7 +10,8 @@ def connect_db():
     except Error as err:
         print(f'Error al conectar la base de Datos {err}')
         return None
-    
+
+# Verificacion de Credenciales
 def login(username, password):
     connection = connect_db()
     if connection:
@@ -29,38 +31,8 @@ def login(username, password):
     cursor.close()
     connection.close()
 
-def cargar_datos(tree):
-    # Conectar a la base de datos MySQL en WAMPServer
-    try:
-        connection = connect_db()
-        
-        if connection.is_connected():
-            cursor = connection.cursor()
-
-            # Consulta SQL para obtener los datos de la tabla
-            query = "SELECT id_libro, titulo, autor, editorial, categoria, estado FROM libros"
-            cursor.execute(query)
-
-            # Recuperar todos los resultados
-            rows = cursor.fetchall()
-
-            # Limpiar el Treeview antes de insertar nuevos datos
-            for row in tree.get_children():
-                tree.delete(row)
-
-            # Insertar los resultados en el Treeview
-            for row in rows:
-                tree.insert("", "end", values=row)
-
-    except Error as e:
-        print(f"Error al conectar a la base de datos: {e}")
-    
-    finally:
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
-
-def insertar_dato(codigo, titulo, autor, editorial, categoria, estado):
+# CRUD
+def Insertar_Datos(codigo, titulo, autor, editorial, categoria, estado):
     connection = connect_db()
     cursor = connection.cursor()
     
@@ -74,8 +46,7 @@ def insertar_dato(codigo, titulo, autor, editorial, categoria, estado):
     connection.commit()
     cursor.close()
     connection.close()
-
-def eliminar_dato(isbn):
+def Eliminar_Datos(isbn):
     connection = connect_db()
     cursor = connection.cursor()
     
@@ -86,8 +57,8 @@ def eliminar_dato(isbn):
     cursor.close()
     connection.close()
 
-def obtener_datos():
-        # Conectar a la base de datos SQLite
+# Gets
+def Obtener_Datos():
         connection = connect_db()
         cursor = connection.cursor()
         
@@ -98,8 +69,30 @@ def obtener_datos():
         resultados = cursor.fetchall()
         connection.close()
         return resultados
-
-def obtener_libros():
+def Consulta_Prestamos():
+        connection = connect_db()
+        cursor = connection.cursor()
+        
+        query = "SELECT id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion FROM prestamos"
+        
+        cursor.execute(query)
+        
+        resultados = cursor.fetchall()
+        connection.close()
+        return resultados
+def Obtener_Prestamos(id_usuario):
+        connection = connect_db()
+        cursor = connection.cursor()
+    
+        # Consultar los préstamos de un usuario específico
+        query = "SELECT id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion FROM prestamos WHERE id_usuario = %s"
+    
+        cursor.execute(query, (id_usuario,))
+    
+        resultados = cursor.fetchall()
+        connection.close()
+        return resultados
+def Obtener_Libros():
     connection = connect_db()
     cursor = connection.cursor()
     
@@ -110,25 +103,21 @@ def obtener_libros():
     connection.close()
     return [titulo[0] for titulo in libros]
 
-def cargar_prestamos(tree):
+# Cargar Info
+def Cargar_Datos(tree):
     try:
         connection = connect_db()
         
         if connection.is_connected():
             cursor = connection.cursor()
-
-            # Consulta SQL para obtener los datos de la tabla
-            query = "SELECT id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion FROM prestamos"
+            query = "SELECT id_libro, titulo, autor, editorial, categoria, estado FROM libros"
             cursor.execute(query)
 
-            # Recuperar todos los resultados
             rows = cursor.fetchall()
 
-            # Limpiar el Treeview antes de insertar nuevos datos
             for row in tree.get_children():
                 tree.delete(row)
 
-            # Insertar los resultados en el Treeview
             for row in rows:
                 tree.insert("", "end", values=row)
 
@@ -139,3 +128,65 @@ def cargar_prestamos(tree):
         if connection.is_connected():
             cursor.close()
             connection.close()
+def Cargar_Prestamos(tree):
+    try:
+        connection = connect_db()
+        
+        if connection.is_connected():
+            cursor = connection.cursor()
+            query = "SELECT id_usuario, nombre, titulo, fecha_prestamo, fecha_devolucion FROM prestamos"
+            cursor.execute(query)
+
+            rows = cursor.fetchall()
+
+            for row in tree.get_children():
+                tree.delete(row)
+
+            for row in rows:
+                tree.insert("", "end", values=row)
+
+    except Error as e:
+        print(f"Error al conectar a la base de datos: {e}")
+    
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+def Cargar_Devoluciones(tree):
+    try:
+        connection = connect_db()
+        
+        if connection.is_connected():
+            cursor = connection.cursor()
+            query = "SELECT id_usuario, nombre, fecha_devolucion, fecha_devolucion_real FROM devoluciones"
+            cursor.execute(query)
+
+            rows = cursor.fetchall()
+
+            for row in tree.get_children():
+                tree.delete(row)
+
+            for row in rows:
+                tree.insert("", "end", values=row)
+
+    except Error as e:
+        print(f"Error al conectar a la base de datos: {e}")
+def Cargar_Sanciones(tree):
+    try:
+        connection = connect_db()
+        
+        if connection.is_connected():
+            cursor = connection.cursor()
+            query = "SELECT id_multa, id_usuario, monto_multa, fecha_multa FROM multas"
+            cursor.execute(query)
+
+            rows = cursor.fetchall()
+
+            for row in tree.get_children():
+                tree.delete(row)
+
+            for row in rows:
+                tree.insert("", "end", values=row)
+
+    except Error as e:
+        print(f"Error al conectar a la base de datos: {e}")
